@@ -35,10 +35,10 @@ fun PantryRowItem(
     ) {
         Column(
             modifier = Modifier
-                .padding(10.dp)
+                .padding(top = 5.dp, bottom = 5.dp)
                 .fillMaxWidth()
         ) {
-            Row() {
+            Row(modifier = Modifier.padding(10.dp)) {
                 Column(modifier = Modifier.padding(end = 10.dp)) {
                     // TODO: Place holder - Some food icon could go here
                     Icon(Icons.Filled.Star, contentDescription = null)
@@ -50,7 +50,7 @@ fun PantryRowItem(
                     Text("x${ingredientCount}")
                 }
             }
-            Row() {
+            Row(modifier = Modifier.padding(start = 10.dp)) {
                 Text("Expiring in 5 weeks")
             }
         }
