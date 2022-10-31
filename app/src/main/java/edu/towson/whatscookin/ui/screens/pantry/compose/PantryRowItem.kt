@@ -1,5 +1,6 @@
 package edu.towson.whatscookin.ui.screens.pantry.compose
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,10 +13,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// TODO: Figure out how to make clickable, I think we just need to use a modifier.
+
 @Composable
 fun PantryRowItem(
     ingredientName: String,
@@ -27,6 +29,9 @@ fun PantryRowItem(
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 5.dp, bottom = 10.dp)
             .fillMaxWidth()
+            .clickable {
+
+            }
     ) {
         Column(
             modifier = Modifier
@@ -35,11 +40,11 @@ fun PantryRowItem(
         ) {
             Row() {
                 Column(modifier = Modifier.padding(end = 10.dp)) {
-                    // Place holder - Some food icon could go here
+                    // TODO: Place holder - Some food icon could go here
                     Icon(Icons.Filled.Star, contentDescription = null)
                 }
                 Column(modifier = Modifier.padding(end = 5.dp)) {
-                    Text(ingredientName, fontSize = 20.sp)
+                    Text(ingredientName, fontSize = 20.sp, fontWeight = FontWeight.Medium)
                 }
                 Column() {
                     Text("x${ingredientCount}")

@@ -10,10 +10,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import edu.towson.whatscookin.ui.Navigation
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import edu.towson.whatscookin.ui.navigation.NavGraph
+import edu.towson.whatscookin.ui.screens.pantry.PantryScreen
 import edu.towson.whatscookin.ui.theme.WhatsCookinTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -23,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Navigation()
+                    PantryScreen()
                 }
             }
         }
