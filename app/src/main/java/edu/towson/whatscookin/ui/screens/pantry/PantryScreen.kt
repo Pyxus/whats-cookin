@@ -12,10 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import edu.towson.whatscookin.ui.screens.pantry.compose.PantryRowItem
 
 @Composable
-fun PantryScreen(){
+fun PantryScreen(navController: NavController){
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = { /*TODO*/ }) {
@@ -89,5 +91,6 @@ private fun Body(){
 @Preview(showBackground = true)
 @Composable
 fun Preview(){
-    PantryScreen()
+    val navController = rememberNavController()
+    PantryScreen(navController)
 }

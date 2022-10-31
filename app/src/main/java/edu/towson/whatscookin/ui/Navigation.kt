@@ -10,5 +10,5 @@ fun Navigation(){
     // This is just a place holder, I don't actually know how to do navigation yet...
     // For now just edit this to test screens, I already have this composable set up to render
     // in MainActivity.kt
-    PantryScreen()
+    //PantryScreen()
 }
