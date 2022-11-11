@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import edu.towson.whatscookin.ui.navigation.Screen
+import edu.towson.whatscookin.ui.screens.main.MainScreen
 import edu.towson.whatscookin.ui.screens.pantry.PantryScreen
 import edu.towson.whatscookin.ui.theme.WhatsCookinTheme
 
@@ -27,31 +28,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Main()
+                    MainScreen()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Main(){
-    val navController = rememberNavController()
-
-    NavHost(
-        navController = navController,
-        startDestination = Screen.Pantry.route
-    ){
-        composable(route = Screen.Pantry.route){
-            PantryScreen(navController)
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    WhatsCookinTheme {
-        Main()
     }
 }
