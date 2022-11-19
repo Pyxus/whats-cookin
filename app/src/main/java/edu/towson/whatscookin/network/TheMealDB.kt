@@ -6,12 +6,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.ResponseBody
 
 class TheMealDB {
     private val apiKey = "1"
     private val apiUrl = "www.themealdb.com/api/json/v1/$apiKey"
-
-    suspend fun search(mealName: String): List<Meal>{
+    
+    suspend fun searchByName(mealName: String): List<Meal>{
         return withContext(Dispatchers.IO){
             val client = OkHttpClient()
             val request = Request.Builder()
@@ -19,33 +20,48 @@ class TheMealDB {
                 .url("$apiUrl/search.php?s=$mealName")
                 .build()
             val response = client.newCall(request).execute()
-            val responseBody = response.body
 
-            if (responseBody != null){
-                val jsonString = responseBody.string()
-                val gson = Gson()
-                val meals = gson.fromJson(jsonString, MealsSchema::class.java)
-                val mealList = meals.meals.map { meal ->
-                    val tags = meal.strTags.split(",")
-                    Meal(
-                        idMeal = meal.idMeal,
-                        name = meal.strMeal,
-                        category = meal.strCategory,
-                        region = meal.strArea,
-                        instructions = meal.strInstructions,
-                        imageUrl = meal.strMealThumb,
-                        measureByIngredient = meal.measureByIngredientMap(),
-                        tags = meal.tagsToList(),
-                        youtubeUrl = meal.strYoutube,
-                        recipeSourceUrl = meal.strSource,
-                        imageSourceUrl = meal.strImageSource,
-                    )
-                }
-                mealList
-            } else{
-                listOf()
-            }
+            getMealsFromResponse(response.body)
         }
+    }
+
+    suspend fun searchByIngredient(ingredient: String): List<Meal>{
+        return withContext(Dispatchers.IO){
+            val client = OkHttpClient()
+            val request = Request.Builder()
+                .get()
+                .url("$apiUrl/filter.php?i=$ingredient")
+                .build()
+            val response = client.newCall(request).execute()
+
+            getMealsFromResponse(response.body)
+        }
+    }
+}
+
+private fun getMealsFromResponse(responseBody: ResponseBody?): List<Meal>{
+    if (responseBody != null){
+        val jsonString = responseBody.string()
+        val gson = Gson()
+        val meals = gson.fromJson(jsonString, MealsSchema::class.java)
+        val mealList = meals.meals.map { meal ->
+            Meal(
+                idMeal = meal.idMeal,
+                name = meal.strMeal,
+                category = meal.strCategory,
+                region = meal.strArea,
+                instructions = meal.strInstructions,
+                imageUrl = meal.strMealThumb,
+                measureByIngredient = meal.measureByIngredientMap(),
+                tags = meal.tagsToList(),
+                youtubeUrl = meal.strYoutube,
+                recipeSourceUrl = meal.strSource,
+                imageSourceUrl = meal.strImageSource,
+            )
+        }
+        return mealList
+    } else{
+        return listOf()
     }
 }
 
