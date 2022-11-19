@@ -24,8 +24,8 @@ class TheMealDB {
             if (responseBody != null){
                 val jsonString = responseBody.string()
                 val gson = Gson()
-                val meals = gson.fromJson(jsonString, Array<MealSchema>::class.java)
-                val mealList = meals.map { meal ->
+                val meals = gson.fromJson(jsonString, MealsSchema::class.java)
+                val mealList = meals.meals.map { meal ->
                     val tags = meal.strTags.split(",")
                     Meal(
                         idMeal = meal.idMeal,
@@ -48,6 +48,10 @@ class TheMealDB {
         }
     }
 }
+
+private data class MealsSchema(
+    val meals: List<MealSchema>
+)
 
 private data class MealSchema(
     val idMeal: Int,
