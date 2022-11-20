@@ -34,7 +34,6 @@ private fun Menu(){
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxHeight()
-            .fillMaxWidth(),
 
         ) {
         MenuRow("Pantry")
