@@ -11,7 +11,7 @@ import okhttp3.ResponseBody
 class TheMealDB {
     private val apiKey = "1"
     private val apiUrl = "www.themealdb.com/api/json/v1/$apiKey"
-    
+
     suspend fun searchByName(mealName: String): List<Meal>{
         return withContext(Dispatchers.IO){
             val client = OkHttpClient()

@@ -13,9 +13,5 @@ import edu.towson.whatscookin.ui.screens.home.HomeScreen
 fun NavGraph(
     navController: NavHostController = rememberNavController()
 ){
-    NavHost(
-        navController = navController,
-        startDestination = Screen.Main.route,
-    ){
-    }
+
 }
