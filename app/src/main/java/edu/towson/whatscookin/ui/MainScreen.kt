@@ -8,7 +8,7 @@ import edu.towson.whatscookin.ui.navigation.NavGraph
 @Composable
 fun MainScreen(){
     val nav = rememberNavController()
-    Scaffold {
+    Scaffold { padding ->
         NavGraph(nav)
     }
 }
