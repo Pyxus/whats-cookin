@@ -92,12 +92,6 @@ private fun PantryList(){
             .padding(15.dp)
             .fillMaxWidth()
     ){
-        item{
-            PantryRowItem("test", 9)
-        }
-        item{
-            PantryRowItem("test", 9)
-        }
     }
 }
 
