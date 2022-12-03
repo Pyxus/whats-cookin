@@ -6,15 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import edu.towson.whatscookin.ui.navigation.Screen
-import edu.towson.whatscookin.ui.screens.main.MainScreen
-import edu.towson.whatscookin.ui.screens.pantry.PantryScreen
+import edu.towson.whatscookin.ui.MainScreen
 import edu.towson.whatscookin.ui.theme.WhatsCookinTheme
 
 class MainActivity : ComponentActivity() {
