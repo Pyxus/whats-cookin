@@ -55,7 +55,7 @@ fun TopBar() {
                 .padding(10.dp)
         ) {
             Row() {
-                Text(text = "Pantry!", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+                Text(text = "Pantry", fontWeight = FontWeight.Bold, fontSize = 24.sp)
             }
             Row() {
                 LazyRow(){
