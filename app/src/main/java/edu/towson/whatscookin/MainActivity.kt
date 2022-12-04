@@ -27,3 +27,8 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+//TODO: Setup SQL Database
+//TODO: Cache all MealDB Ingredients with SQLite.
+//TODO: Implement "add to pantry" function
+//TODO: Store user ingredients with SQLite

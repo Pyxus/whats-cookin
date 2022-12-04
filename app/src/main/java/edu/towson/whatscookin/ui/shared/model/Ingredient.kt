@@ -7,4 +7,5 @@ data class Ingredient (
     val count: Int,
     val dateAdded: Date,
     val expirationDate: Date,
+    val mealId: Int
     ){}
