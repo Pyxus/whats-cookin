@@ -2,14 +2,13 @@ package edu.towson.whatscookin.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Kitchen
-import androidx.compose.material.icons.filled.LunchDining
-import androidx.compose.material.icons.filled.MenuBook
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,9 +26,20 @@ import edu.towson.whatscookin.ui.navigation.Screen
 @Composable
 fun MainScreen() {
     val nav = rememberNavController()
+    val backStackEntry = nav.currentBackStackEntryAsState()
+    val currentDestination = backStackEntry.value?.destination
+
     Scaffold(
         topBar = { TopBar() },
-        bottomBar = { BottomBar(nav) }
+        bottomBar = { BottomBar(nav) },
+        floatingActionButton = {
+            if (currentDestination?.route == Screen.Pantry.route) {
+                FloatingActionButton(onClick = { /*TODO*/ }) {
+                    Icon(Icons.Filled.Add, contentDescription = "Add new pantry item")
+                }
+            }
+
+        },
     ) { _ ->
         NavGraph(nav)
     }
@@ -42,10 +52,16 @@ fun TopBar() {
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(10.dp)
         ) {
-            Text(text = "Pantry", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+            Row() {
+                Text(text = "Pantry!", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+            }
+            Row() {
+                LazyRow(){
+                    item { Text("test") }
+                }
+            }
         }
     }
 }
@@ -68,7 +84,7 @@ fun BottomBar(
                     popUpTo(Screen.Pantry.route)
                 }
             },
-            icon = { Icon(Icons.Filled.Kitchen, contentDescription = null) }
+            icon = { Icon(Icons.Filled.Kitchen, contentDescription = "Navigate to pantry") }
         )
 
         BottomNavigationItem(
@@ -79,7 +95,7 @@ fun BottomBar(
                     popUpTo(Screen.Recipe.route)
                 }
             },
-            icon = { Icon(Icons.Filled.MenuBook, contentDescription = null) }
+            icon = { Icon(Icons.Filled.MenuBook, contentDescription = "Navigate to recipes") }
         )
 
         BottomNavigationItem(
@@ -90,7 +106,7 @@ fun BottomBar(
                     popUpTo(Screen.Tools.route)
                 }
             },
-            icon = { Icon(Icons.Filled.Kitchen, contentDescription = null) }
+            icon = { Icon(Icons.Filled.Kitchen, contentDescription = "Navigate to tools") }
         )
     }
 }

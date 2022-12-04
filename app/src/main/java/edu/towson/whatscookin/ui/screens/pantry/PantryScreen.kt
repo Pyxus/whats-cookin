@@ -1,5 +1,7 @@
 package edu.towson.whatscookin.ui.screens.pantry
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,27 +13,25 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun PantryScreen(){
+fun PantryScreen() {
     Scaffold(
-        floatingActionButton = { FloatingActionButton(onClick = { /*TODO*/ }) {
-            Icon(Icons.Filled.Add, contentDescription = "Add new pantry item")
-        }},
-
     ) { padding ->
         Column(
             modifier = Modifier
                 .padding(padding)
-                .padding(30.dp)
+                .padding(25.dp)
         ) {
             Header()
             Row() {
@@ -44,12 +44,15 @@ fun PantryScreen(){
 
 @Composable
 fun Header() {
-    Row() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
         SearchBar()
     }
-    LazyRow(){
+    LazyRow() {
         item {
-            StorageFilterItem("All")
+            StorageFilterItem("All", true)
         }
         item {
             StorageFilterItem("Fridge")
@@ -64,30 +67,52 @@ fun Header() {
 }
 
 @Composable
-private fun StorageFilterItem(text: String){
-    Column(modifier = Modifier.padding(5.dp)) {
+private fun StorageFilterItem(text: String, isSelected: Boolean = false, count: Int = 0) {
+    Column(modifier = Modifier.padding(horizontal = 5.dp, vertical = 15.dp)) {
         Row() {
-            Text(text)
+            Button(
+                border = BorderStroke(1.dp, Color.Gray),
+                elevation = null,
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = if (isSelected) Color.Black else Color.Transparent
+                ),
+                onClick = { /*TODO*/ }
+            ) {
+                Text(
+                    text = "$text ($count)",
+                    color = if (isSelected) Color.White else Color.Black
+                )
+            }
         }
     }
 }
 
+
 @Composable
-private fun SearchBar(){
+private fun SearchBar() {
     TextField(
         value = "",
         onValueChange = {},
-        placeholder = {Text("Search")}
+        placeholder = {
+            Text("Search")
+        },
+        trailingIcon = {
+            Icon(
+                Icons.Filled.Search,
+                contentDescription = "Search pantry"
+            )
+        },
+        modifier = Modifier.fillMaxWidth()
     )
 }
 
 @Composable
-private fun PantryList(){
+private fun PantryList() {
     LazyColumn(
         modifier = Modifier
             .padding(15.dp)
             .fillMaxWidth()
-    ){
+    ) {
     }
 }
 
@@ -95,7 +120,7 @@ private fun PantryList(){
 fun PantryRowItem(
     ingredientName: String,
     ingredientCount: Int,
-){
+) {
     Card(
         shape = RoundedCornerShape(5.dp),
         elevation = 16.dp,
@@ -133,6 +158,6 @@ fun PantryRowItem(
 
 @Preview(showBackground = true)
 @Composable
-fun Preview(){
+fun Preview() {
     PantryScreen()
 }
