@@ -26,11 +26,7 @@ fun PantryScreen(){
         floatingActionButton = { FloatingActionButton(onClick = { /*TODO*/ }) {
             Icon(Icons.Filled.Add, contentDescription = "Add new pantry item")
         }},
-        topBar = {
-            TopAppBar() {
-                Text(text = "Pantry", fontSize = 30.sp)
-            }
-        }
+
     ) { padding ->
         Column(
             modifier = Modifier

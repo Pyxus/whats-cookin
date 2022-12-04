@@ -17,57 +17,80 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHost
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import edu.towson.whatscookin.ui.navigation.NavGraph
+import edu.towson.whatscookin.ui.navigation.Screen
 
 @Composable
-fun MainScreen(){
+fun MainScreen() {
     val nav = rememberNavController()
     Scaffold(
         topBar = { TopBar() },
-        bottomBar = { BottomBar() }
+        bottomBar = { BottomBar(nav) }
     ) { _ ->
         NavGraph(nav)
     }
 }
 
 @Composable
-fun TopBar(){
+fun TopBar() {
     TopAppBar(
-        elevation = 16.dp,
+        elevation = 12.dp,
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(10.dp)
         ) {
-            Text(text= "Pantry", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+            Text(text = "Pantry", fontWeight = FontWeight.Bold, fontSize = 24.sp)
         }
     }
 }
 
 @Composable
-fun BottomBar(){
-      BottomNavigation() {
-          BottomNavigationItem(
-              selected = false,
-              label = { Text("Pantry") },
-              onClick = { /*TODO*/ },
-              icon = { Icon(Icons.Filled.Kitchen, contentDescription = null) }
-          )
+fun BottomBar(
+    nav: NavHostController
+) {
+    val backStackEntry = nav.currentBackStackEntryAsState()
+    val currentDestination = backStackEntry.value?.destination
 
-          BottomNavigationItem(
-              selected = false,
-              label = { Text("Recipes") },
-              onClick = { /*TODO*/ },
-              icon = { Icon(Icons.Filled.MenuBook, contentDescription = null) }
-          )
+    BottomNavigation(
+        elevation = 12.dp
+    ) {
+        BottomNavigationItem(
+            selected = currentDestination?.route == Screen.Pantry.route,
+            label = { Text("Pantry") },
+            onClick = {
+                nav.navigate(Screen.Pantry.route) {
+                    popUpTo(Screen.Pantry.route)
+                }
+            },
+            icon = { Icon(Icons.Filled.Kitchen, contentDescription = null) }
+        )
 
-          BottomNavigationItem(
-              selected = false,
-              label = { Text("Tools") },
-              onClick = { /*TODO*/ },
-              icon = { Icon(Icons.Filled.Kitchen, contentDescription = null) }
-          )
-      }
+        BottomNavigationItem(
+            selected = currentDestination?.route == Screen.Recipe.route,
+            label = { Text("Recipes") },
+            onClick = {
+                nav.navigate(Screen.Recipe.route) {
+                    popUpTo(Screen.Recipe.route)
+                }
+            },
+            icon = { Icon(Icons.Filled.MenuBook, contentDescription = null) }
+        )
+
+        BottomNavigationItem(
+            selected = currentDestination?.route == Screen.Tools.route,
+            label = { Text("Tools") },
+            onClick = {
+                nav.navigate(Screen.Tools.route) {
+                    popUpTo(Screen.Tools.route)
+                }
+            },
+            icon = { Icon(Icons.Filled.Kitchen, contentDescription = null) }
+        )
+    }
 }
