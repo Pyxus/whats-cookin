@@ -1,11 +1,7 @@
 package edu.towson.whatscookin.ui.screens.pantry
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
->>>>>>> project-reevaluation
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -188,50 +184,3 @@ fun PantryRowItem(
 
     }
 }
-
-=======
-import android.graphics.Color
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import edu.towson.whatscookin.ui.screens.home.HomeScreen
-//import androidx.compose.ui.graphics.*
-
-
-
-
-@Composable
-fun PantryScreen(
-//    food: List<Food>,
-//    modifier: Modifier = Modifier
-
-){
-
-//    LazyColumn(
-//        state = listState,
-//
-//    )
-}
-
-
-
->>>>>>> origin/katie_edits
-@Preview(showBackground = true)
-@Composable
-fun Preview() {
-    PantryScreen()
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> origin/katie_edits
