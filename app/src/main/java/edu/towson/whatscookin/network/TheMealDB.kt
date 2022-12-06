@@ -9,34 +9,51 @@ import okhttp3.Request
 import okhttp3.ResponseBody
 
 class TheMealDB {
-    private val apiKey = "1"
-    private val apiUrl = "www.themealdb.com/api/json/v1/$apiKey"
+    companion object{
+        private val apiKey = "1"
+        private val apiUrl = "www.themealdb.com/api/json/v1/$apiKey"
 
-    suspend fun searchByName(mealName: String): List<Meal>{
-        return withContext(Dispatchers.IO){
-            val client = OkHttpClient()
-            val request = Request.Builder()
-                .get()
-                .url("$apiUrl/search.php?s=$mealName")
-                .build()
-            val response = client.newCall(request).execute()
+        suspend fun searchByName(mealName: String): List<Meal>{
+            return withContext(Dispatchers.IO){
+                val client = OkHttpClient()
+                val request = Request.Builder()
+                    .get()
+                    .url("$apiUrl/search.php?s=$mealName")
+                    .build()
+                val response = client.newCall(request).execute()
 
-            getMealsFromResponse(response.body)
+                getMealsFromResponse(response.body)
+            }
+        }
+
+        suspend fun searchByIngredient(ingredient: String): List<Meal>{
+            return withContext(Dispatchers.IO){
+                val client = OkHttpClient()
+                val request = Request.Builder()
+                    .get()
+                    .url("$apiUrl/filter.php?i=$ingredient")
+                    .build()
+                val response = client.newCall(request).execute()
+
+                getMealsFromResponse(response.body)
+            }
+        }
+
+        suspend fun getAllIngredients(){
+            return withContext(Dispatchers.IO){
+                val client = OkHttpClient()
+                val request = Request.Builder()
+                    .get()
+                    .url("$apiUrl/filter.php?i=list.php?i=list")
+                    .build()
+                val response = client.newCall(request).execute()
+
+                getMealsFromResponse(response.body)
+            }
         }
     }
 
-    suspend fun searchByIngredient(ingredient: String): List<Meal>{
-        return withContext(Dispatchers.IO){
-            val client = OkHttpClient()
-            val request = Request.Builder()
-                .get()
-                .url("$apiUrl/filter.php?i=$ingredient")
-                .build()
-            val response = client.newCall(request).execute()
 
-            getMealsFromResponse(response.body)
-        }
-    }
 }
 
 private fun getMealsFromResponse(responseBody: ResponseBody?): List<Meal>{

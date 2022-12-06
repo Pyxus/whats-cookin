@@ -30,17 +30,20 @@ fun MainScreen() {
     val currentDestination = backStackEntry.value?.destination
 
     Scaffold(
-        topBar = { TopBar() },
+     
         bottomBar = { BottomBar(nav) },
         floatingActionButton = {
             if (currentDestination?.route == Screen.Pantry.route) {
-                FloatingActionButton(onClick = { /*TODO*/ }) {
+                FloatingActionButton(onClick = {
+                    nav.navigate(Screen.AddToPantry.route)
+                }) {
                     Icon(Icons.Filled.Add, contentDescription = "Add new pantry item")
                 }
             }
 
         },
-    ) { _ ->
+    ) { padding ->
+        print(padding)
         NavGraph(nav)
     }
 }

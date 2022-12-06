@@ -22,17 +22,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import edu.towson.whatscookin.ui.shared.compose.SearchBar
 
 @Composable
 fun PantryScreen() {
     val vm = viewModel<PantryScreenViewModel>()
 
     Scaffold(
+        topBar = {
+            TopAppBar() {
+                TopBar()
+            }
+        }
     ) { padding ->
         Column(
             modifier = Modifier
                 .padding(padding)
-                .padding(25.dp)
         ) {
             Header(vm)
             Row() {
@@ -44,6 +49,22 @@ fun PantryScreen() {
 }
 
 @Composable
+fun TopBar() {
+    TopAppBar(
+        elevation = 12.dp,
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(10.dp)
+        ) {
+            Column() {
+                Text(text = "Pantry", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+            }
+        }
+    }
+}
+
+@Composable
 fun Header(
     vm: PantryScreenViewModel
 ) {
@@ -51,9 +72,15 @@ fun Header(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        SearchBar()
+        SearchBar(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 25.dp, end = 25.dp, top = 15.dp, bottom = 5.dp)
+        )
     }
-    LazyRow() {
+    LazyRow(
+        contentPadding = PaddingValues(horizontal = 19.dp)
+    ) {
         item {
             StorageFilterItem(
                 text = "All",
@@ -94,7 +121,10 @@ private fun StorageFilterItem(
     isSelected: Boolean = false,
     count: Int = 0
 ) {
-    Column(modifier = Modifier.padding(horizontal = 5.dp, vertical = 15.dp)) {
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 5.dp, vertical = 15.dp)
+    ) {
         Row() {
             Button(
                 border = BorderStroke(1.dp, Color.Gray),
@@ -115,29 +145,11 @@ private fun StorageFilterItem(
 
 
 @Composable
-private fun SearchBar() {
-    TextField(
-        value = "",
-        onValueChange = {},
-        placeholder = {
-            Text("Search your pantry")
-        },
-        trailingIcon = {
-            Icon(
-                Icons.Filled.Search,
-                contentDescription = "Search pantry"
-            )
-        },
-        modifier = Modifier.fillMaxWidth()
-    )
-}
-
-@Composable
 private fun PantryList() {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(15.dp)
+            .padding(horizontal = 25.dp)
     ) {
         item {
             PantryRowItem(ingredientName = "Test Food", ingredientCount = 5)
