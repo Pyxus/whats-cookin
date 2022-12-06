@@ -30,14 +30,17 @@ fun MainScreen() {
     val currentDestination = backStackEntry.value?.destination
 
     Scaffold(
-     
+
         bottomBar = { BottomBar(nav) },
         floatingActionButton = {
             if (currentDestination?.route == Screen.Pantry.route) {
-                FloatingActionButton(onClick = {
+                FloatingActionButton(backgroundColor = MaterialTheme.colors.secondary, onClick = {
                     nav.navigate(Screen.AddToPantry.route)
                 }) {
-                    Icon(Icons.Filled.Add, contentDescription = "Add new pantry item")
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = "Add new pantry item",
+                    )
                 }
             }
 
@@ -61,7 +64,7 @@ fun TopBar() {
                 Text(text = "Pantry", fontWeight = FontWeight.Bold, fontSize = 24.sp)
             }
             Row() {
-                LazyRow(){
+                LazyRow() {
                     item { Text("test") }
                 }
             }
