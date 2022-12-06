@@ -20,7 +20,7 @@ import edu.towson.whatscookin.ui.shared.compose.SearchBar
 fun AddToPantry(){
     Column {
         Row(){
-            SearchBar()
+            SearchBar(modifier = Modifier.fillMaxWidth(), placeholderText = "Type ingredient name to search")
         }
         Row(){
 
