@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import edu.towson.whatscookin.ui.screens.addtopantry.AddToPantry
 import edu.towson.whatscookin.ui.screens.home.HomeScreen
 import edu.towson.whatscookin.ui.screens.pantry.PantryScreen
+import edu.towson.whatscookin.ui.screens.recipie.RecipeScreen
 
 @Composable
 fun NavGraph(
@@ -23,6 +24,7 @@ fun NavGraph(
             AddToPantry()
         }
         composable(Screen.Recipe.route){
+            RecipeScreen()
         }
         composable(Screen.Tools.route){
         }
