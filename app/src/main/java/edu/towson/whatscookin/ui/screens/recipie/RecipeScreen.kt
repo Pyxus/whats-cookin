@@ -28,6 +28,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import edu.towson.whatscookin.network.TheMealDB
 
 //TODO: Display how many ingredients the users has compared to how many they need
+//TODO: Navigate to instruction screen that displays instructions to make meal when clicked.
+//      A lot of meals have youtube videos associated with them... Could look into video embedding.
 
 @Composable
 fun RecipeScreen() {
