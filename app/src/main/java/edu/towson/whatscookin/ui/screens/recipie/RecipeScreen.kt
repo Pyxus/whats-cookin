@@ -33,11 +33,9 @@ import edu.towson.whatscookin.network.TheMealDB
 //      A lot of meals have youtube videos associated with them... Could look into video embedding.
 
 @Composable
-fun RecipeScreen(onNavigateToRecipeDetails: () -> Unit) {
-    val vm = viewModel<RecipeScreenViewModel>()
-
+fun RecipeScreen(vm: RecipeScreenViewModel, onNavigateToRecipeDetails: () -> Unit) {
     // THIS IS JUST FOR TESTING.
-    // Need to update on screen load on recomposition.
+    // Need to update on screen load not recomposition.
     vm.updateMeals()
 
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
