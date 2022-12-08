@@ -7,6 +7,6 @@ data class IngredientsSchema(
 data class IngredientSchema(
     val idIngredient: Int,
     val strIngredient: String,
-    val strDescription: String,
+    val strDescription: String?,
     val strType: String,
 )
