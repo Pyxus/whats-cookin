@@ -68,9 +68,8 @@ class RecipeScreenViewModel : ViewModel() {
     }
 
     private suspend fun fetchMealImages() {
-        _mealImages.value = withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO){
             val client = OkHttpClient()
-            val mealImagesById = mutableMapOf<Int, ImageBitmap>()
 
             _meals.value.forEach { meal ->
                 var bitmap: Bitmap? = null
@@ -85,13 +84,12 @@ class RecipeScreenViewModel : ViewModel() {
                     bitmap = BitmapFactory.decodeStream(responseBody.byteStream())
                     if (bitmap != null)
                     {
+                        val mealImagesById = mutableMapOf<Int, ImageBitmap>()
                         mealImagesById[meal.idMeal] = bitmap.asImageBitmap()
+                        _mealImages.value = _mealImages.value + mealImagesById
                     }
-
                 }
             }
-
-            mealImagesById
         }
     }
 

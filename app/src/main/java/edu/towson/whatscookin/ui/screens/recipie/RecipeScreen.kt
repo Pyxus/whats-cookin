@@ -60,21 +60,29 @@ fun MealCard(mealImage: ImageBitmap?, mealName: String) {
     Card(
         elevation = 15.dp,
         modifier = Modifier
-            .padding(6.dp)
+            .fillMaxSize()
+            .padding(8.dp)
             .clickable { }
     ) {
-        if (mealImage != null){
-            Image(bitmap = mealImage, contentDescription = null)
-        }else {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .requiredWidth(50.dp)
-                    .requiredHeight(150.dp)
-            ) {
-                CircularProgressIndicator()
+        Column() {
+            Row() {
+                if (mealImage != null){
+                    Image(bitmap = mealImage, contentDescription = null)
+                }else {
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .requiredWidth(50.dp)
+                            .requiredHeight(150.dp)
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+            }
+            Row() {
+                Text(mealName)
             }
         }
     }
