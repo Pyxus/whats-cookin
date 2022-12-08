@@ -37,6 +37,8 @@ fun RecipeScreen(){
     val desc = "this is a place holder"
     val extra = "this is just extra info"
 
+    vm.updateMeals()
+
     Column() {
         Row(
             modifier = Modifier.fillMaxWidth(),
