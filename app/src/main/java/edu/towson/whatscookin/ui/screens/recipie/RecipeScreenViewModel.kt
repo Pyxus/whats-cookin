@@ -32,7 +32,6 @@ class RecipeScreenViewModel : ViewModel() {
     val mealImages: State<Map<Int, ImageBitmap>> = _mealImages
 
     fun updateMeals() {
-        //TODO: Loop through all ingredients in the pantry
         val ingredients = listOf(
             Ingredient("Egg", null, "", 0),
             Ingredient("Milk", null, "", 0),

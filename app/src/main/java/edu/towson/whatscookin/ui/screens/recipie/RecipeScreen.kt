@@ -27,16 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import edu.towson.whatscookin.network.TheMealDB
 
-//TODO: Build recipe collection
-//      1. Loop through all ingredients in the pantry
-//      2. Perform a mealDB meal query
-//      3. Append all meals that appear to collection
-//      4. If a meal re-appears for another ingredient increment a 'possessedIngredientCount' value.
-//          * Since we're looping through the ingredients, a meal appearing multiple times means we have
-//          multiple of the ingredients it requires
-
-//TODO: Sort recipe collection from most ingredients to least.
-//TODO: Populate recipe screen based on sorted collection.
+//TODO: Display how many ingredients the users has compared to how many they need
 
 @Composable
 fun RecipeScreen() {
