@@ -33,7 +33,13 @@ class RecipeScreenViewModel : ViewModel() {
 
     fun updateMeals() {
         //TODO: Loop through all ingredients in the pantry
-        val ingredients = listOf(Ingredient("Egg", null, "", 0))
+        val ingredients = listOf(
+            Ingredient("Egg", null, "", 0),
+            Ingredient("Milk", null, "", 0),
+            Ingredient("Butter", null, "", 0),
+            Ingredient("Bacon", null, "", 0),
+            Ingredient("Plain Flour", null, "", 0),
+        )
 
         viewModelScope.launch {
             _meals.value = withContext(Dispatchers.IO) {
@@ -50,11 +56,11 @@ class RecipeScreenViewModel : ViewModel() {
                 }
 
                 val pmValues = potentialMeals.values
-                pmValues.sortedByDescending { pm ->
+                val sortedValues = pmValues.sortedByDescending { pm ->
                     pm.possessedIngredientCount
                 }
 
-                pmValues.map { pm ->
+                sortedValues.map { pm ->
                     pm.meal
                 }
             }

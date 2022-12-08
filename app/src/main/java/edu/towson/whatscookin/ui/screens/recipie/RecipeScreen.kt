@@ -81,7 +81,9 @@ fun MealCard(mealImage: ImageBitmap?, mealName: String) {
                     }
                 }
             }
-            Row() {
+            Row(
+                modifier = Modifier.padding(5.dp)
+            ) {
                 Text(mealName)
             }
         }
