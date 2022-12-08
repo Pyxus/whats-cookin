@@ -1,8 +1,20 @@
 package edu.towson.whatscookin.model
 
-data class Ingredient (
-    val name: String,
-    val description: String?,
-    val imageUrl: String,
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "ingredients")
+data class Ingredient(
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
-    ){}
+    @ColumnInfo(name = "ingredient_name")
+    val name: String,
+    @ColumnInfo(name = "ingredient_description")
+    val description: String?,
+    @ColumnInfo(name = "ingredient_image_url")
+    val imageUrl: String?
+
+    ){
+
+}
