@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 // sqlite stored ingredient table
-@Entity(tableName = "ingredient_store")
+@Entity(tableName = "stored_ingredients")
 data class StoredIngredient(
     @PrimaryKey(autoGenerate = true)
     val ingredientId: Int,
