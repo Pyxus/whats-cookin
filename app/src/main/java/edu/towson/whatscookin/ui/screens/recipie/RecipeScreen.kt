@@ -11,11 +11,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import edu.towson.whatscookin.network.TheMealDB
 
 //TODO: Build recipe collection
 //      1. Loop through all ingredients in the pantry
@@ -30,9 +33,10 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun RecipeScreen(){
+    val vm = viewModel<RecipeScreenViewModel>()
     val desc = "this is a place holder"
     val extra = "this is just extra info"
-    Log.d("Test", "Hi")
+
     Column() {
         Row(
             modifier = Modifier.fillMaxWidth(),
