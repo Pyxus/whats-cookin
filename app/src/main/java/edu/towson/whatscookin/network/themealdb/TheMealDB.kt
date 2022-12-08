@@ -16,6 +16,7 @@ class TheMealDB {
     private val apiUrl = "https://www.themealdb.com/api/json/v1/$apiKey"
     private val client = OkHttpClient()
 
+
     suspend fun searchByName(mealName: String): List<Meal> {
         return withContext(Dispatchers.IO) {
             val request = Request.Builder()

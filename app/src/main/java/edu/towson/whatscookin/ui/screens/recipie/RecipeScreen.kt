@@ -1,10 +1,16 @@
 package edu.towson.whatscookin.ui.screens.recipie
 
 import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -15,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -32,47 +39,42 @@ import edu.towson.whatscookin.network.TheMealDB
 //TODO: Populate recipe screen based on sorted collection.
 
 @Composable
-fun RecipeScreen(){
+fun RecipeScreen() {
     val vm = viewModel<RecipeScreenViewModel>()
     val desc = "this is a place holder"
     val extra = "this is just extra info"
 
+    // THIS IS JUST FOR TESTING.
+    // Need to update on screen load on recomposition.
     vm.updateMeals()
 
-    Column() {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            LazyColumn() {
-                items(10) { index ->
-                    Card(
-                        shape = RoundedCornerShape(5.dp),
-                        elevation = 1.dp,
-                        backgroundColor = Color.Transparent,
-                        modifier = Modifier
-                            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-                            .fillMaxWidth()
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(32.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                Icons.Filled.AddCircle,
-                                "placeholder_forRecipeImage",
-                                modifier = Modifier.size(48.dp)
-                            )
-                            Column(
-                                modifier = Modifier.padding(start = 16.dp)
-                            ) {
-                                Text(text = "Recipe: $index")
-                                Text(text = "Description: $desc", fontSize = 10.sp)
-                                Text(text = "Extra Info: $extra", fontSize = 10.sp)
-                            }
-                        }
-                    }
-                }
+    LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+        items(vm.meals.value) { meal ->
+            MealCard(mealImage = vm.mealImages.value[meal.idMeal], mealName = meal.name)
+        }
+    }
+}
+
+@Composable
+fun MealCard(mealImage: ImageBitmap?, mealName: String) {
+    Card(
+        elevation = 15.dp,
+        modifier = Modifier
+            .padding(6.dp)
+            .clickable { }
+    ) {
+        if (mealImage != null){
+            Image(bitmap = mealImage, contentDescription = null)
+        }else {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .requiredWidth(50.dp)
+                    .requiredHeight(150.dp)
+            ) {
+                CircularProgressIndicator()
             }
         }
     }
