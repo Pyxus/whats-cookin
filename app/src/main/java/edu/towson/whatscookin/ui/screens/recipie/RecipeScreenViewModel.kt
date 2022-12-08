@@ -69,10 +69,6 @@ class RecipeScreenViewModel : ViewModel() {
 
             fetchMealImages()
         }
-
-        _meals.value.forEach {
-            Log.d("Test", it.imageUrl)
-        }
     }
 
     private suspend fun fetchMealImages() {
