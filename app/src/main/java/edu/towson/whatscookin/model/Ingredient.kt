@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+// sqlite ingredient table
 @Entity(tableName = "ingredients")
 data class Ingredient(
     @PrimaryKey

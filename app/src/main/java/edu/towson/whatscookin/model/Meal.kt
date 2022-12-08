@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+// sqlite meal table
 @Entity(tableName = "meals")
 data class Meal(
     @PrimaryKey
@@ -28,4 +29,6 @@ data class Meal(
     val recipeSourceUrl: String?,
     @ColumnInfo(name = "recipe_image_src_url")
     val imageSourceUrl: String?,
-)
+){
+
+}
