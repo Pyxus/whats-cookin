@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import edu.towson.whatscookin.model.Meal
 import edu.towson.whatscookin.network.TheMealDB
 
 //TODO: Display how many ingredients the users has compared to how many they need
@@ -32,10 +33,8 @@ import edu.towson.whatscookin.network.TheMealDB
 //      A lot of meals have youtube videos associated with them... Could look into video embedding.
 
 @Composable
-fun RecipeScreen() {
+fun RecipeScreen(onNavigateToRecipeDetails: () -> Unit) {
     val vm = viewModel<RecipeScreenViewModel>()
-    val desc = "this is a place holder"
-    val extra = "this is just extra info"
 
     // THIS IS JUST FOR TESTING.
     // Need to update on screen load on recomposition.
@@ -43,25 +42,34 @@ fun RecipeScreen() {
 
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(vm.meals.value) { meal ->
-            MealCard(mealImage = vm.mealImages.value[meal.idMeal], mealName = meal.name)
+            MealCard(
+                mealImage = vm.mealImages.value[meal.idMeal],
+                mealName = meal.name,
+                onNavigateToRecipeDetails = {
+                    vm.selectedMeal = meal
+                    onNavigateToRecipeDetails()
+                }
+            )
         }
     }
 }
 
 @Composable
-fun MealCard(mealImage: ImageBitmap?, mealName: String) {
+fun MealCard(mealImage: ImageBitmap?, mealName: String, onNavigateToRecipeDetails: () -> Unit) {
     Card(
         elevation = 15.dp,
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp)
-            .clickable { }
+            .clickable {
+                onNavigateToRecipeDetails()
+            }
     ) {
         Column() {
             Row() {
-                if (mealImage != null){
+                if (mealImage != null) {
                     Image(bitmap = mealImage, contentDescription = null)
-                }else {
+                } else {
                     Column(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,

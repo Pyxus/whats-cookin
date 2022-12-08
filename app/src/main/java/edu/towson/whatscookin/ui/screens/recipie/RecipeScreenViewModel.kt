@@ -31,6 +31,9 @@ class RecipeScreenViewModel : ViewModel() {
     private val _mealImages = mutableStateOf(mapOf<Int, ImageBitmap>())
     val mealImages: State<Map<Int, ImageBitmap>> = _mealImages
 
+    //private val _selectedMeal = mutableStateOf<Meal?>(null)
+    var selectedMeal: Meal? = null
+
     fun updateMeals() {
         val ingredients = listOf(
             Ingredient("Egg", null, "", 0),
