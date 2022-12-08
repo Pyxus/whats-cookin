@@ -45,7 +45,9 @@ class RecipeScreenViewModel : ViewModel() {
 
         viewModelScope.launch {
             _meals.value = withContext(Dispatchers.IO) {
+                val client = OkHttpClient()
                 val potentialMeals = mutableMapOf<Int, PotentialMeal>()
+
                 ingredients.forEach { ingredient ->
                     _mealDb.searchByIngredient(ingredient.name).forEach { meal ->
                         val pm = potentialMeals[meal.idMeal]
@@ -56,7 +58,6 @@ class RecipeScreenViewModel : ViewModel() {
                         }
                     }
                 }
-
                 val pmValues = potentialMeals.values
                 val sortedValues = pmValues.sortedByDescending { pm ->
                     pm.possessedIngredientCount
@@ -68,6 +69,28 @@ class RecipeScreenViewModel : ViewModel() {
             }
 
             fetchMealImages()
+        }
+    }
+
+    private suspend fun fetchMealImage(client: OkHttpClient, meal: Meal){
+        var bitmap: Bitmap? = null
+
+        if (!_mealImages.value.containsKey(meal.idMeal)){
+            val request = Request.Builder()
+                .get()
+                .url(meal.imageUrl)
+                .build()
+            val response = client.newCall(request).execute()
+            val responseBody = response.body
+            if (responseBody != null){
+                bitmap = BitmapFactory.decodeStream(responseBody.byteStream())
+                if (bitmap != null)
+                {
+                    val mealImagesById = mutableMapOf<Int, ImageBitmap>()
+                    mealImagesById[meal.idMeal] = bitmap.asImageBitmap()
+                    _mealImages.value = _mealImages.value + mealImagesById
+                }
+            }
         }
     }
 

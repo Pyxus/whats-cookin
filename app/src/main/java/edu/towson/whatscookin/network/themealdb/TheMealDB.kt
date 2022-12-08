@@ -49,7 +49,7 @@ class TheMealDB {
     }
 
     // Searched MealDB and returns a list of all meals featuring the given ingredient
-    suspend fun searchByIngredient(ingredient: String) {
+    suspend fun searchByIngredient(ingredient: String): List<Meal> {
         return withContext(Dispatchers.IO) {
             val request = Request.Builder()
                 .get()
@@ -63,12 +63,18 @@ class TheMealDB {
                 val jsonString = responseBody.string()
                 val gson = Gson()
                 val meals = gson.fromJson(jsonString, MealsByIngredientSchema::class.java)
-                val mealList = meals.meals.map{ meal ->
+                val mealList = meals.meals.mapNotNull { meal ->
                     val searchList = searchMeal(meal.idMeal)
-                    if (searchList.isNotEmpty()){
+                    if (searchList.isNotEmpty()) {
                         searchList[0]
+                    } else {
+                        null
                     }
                 }
+
+                mealList
+            } else{
+                listOf()
             }
         }
     }
