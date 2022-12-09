@@ -44,6 +44,7 @@ class RecipeScreenViewModel : ViewModel() {
     }
 
     fun updateMeals() {
+        //TODO: Replace with real ingredients from database
         val ingredients = listOf(
             Ingredient("Egg", null, "", 0),
             Ingredient("Milk", null, "", 0),
