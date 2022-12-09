@@ -1,6 +1,8 @@
 package edu.towson.whatscookin.ui.screens.recipie
 
 import android.util.Log
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,15 +11,13 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,20 +34,35 @@ import edu.towson.whatscookin.network.TheMealDB
 
 @Composable
 fun RecipeScreen(vm: RecipeScreenViewModel, onNavigateToRecipeDetails: () -> Unit) {
-    // THIS IS JUST FOR TESTING.
-    // Need to update on screen load not recomposition.
-    vm.updateMeals()
-
-    LazyVerticalGrid(columns = GridCells.Fixed(2)) {
-        items(vm.meals.value) { meal ->
-            MealCard(
-                mealImage = vm.mealImages.value[meal.idMeal],
-                mealName = meal.name,
-                onNavigateToRecipeDetails = {
-                    vm.selectedMeal = meal
-                    onNavigateToRecipeDetails()
-                }
-            )
+    if (vm.mealSearchProgress.value.isSearchFinished){
+        LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+            items(vm.meals.value) { meal ->
+                MealCard(
+                    mealImage = vm.mealImages.value[meal.idMeal],
+                    mealName = meal.name,
+                    onNavigateToRecipeDetails = {
+                        vm.selectedMeal = meal
+                        onNavigateToRecipeDetails()
+                    }
+                )
+            }
+        }   
+    } else{
+        val progress: Float by animateFloatAsState(
+            targetValue = vm.mealSearchProgress.value.getProgressFraction(),
+            animationSpec = tween(1000),
+        )
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Row() {
+                LinearProgressIndicator(progress = progress)
+            }
+            Row(){
+                Text(text = "Figuring out what's on the menu!")
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import edu.towson.whatscookin.model.Ingredient
 import edu.towson.whatscookin.model.Meal
+import edu.towson.whatscookin.model.MealSearchProgress
 import edu.towson.whatscookin.network.TheMealDB
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -31,6 +32,9 @@ class RecipeScreenViewModel : ViewModel() {
     private val _mealImages = mutableStateOf(mapOf<Int, ImageBitmap>())
     val mealImages: State<Map<Int, ImageBitmap>> = _mealImages
 
+    private val _mealSearchProgress = mutableStateOf(MealSearchProgress())
+    val mealSearchProgress: State<MealSearchProgress> = _mealSearchProgress
+
     //private val _selectedMeal = mutableStateOf<Meal?>(null)
     var selectedMeal: Meal? = null
 
@@ -43,10 +47,14 @@ class RecipeScreenViewModel : ViewModel() {
             Ingredient("Plain Flour", null, "", 0),
         )
 
+        _mealSearchProgress.value =
+            MealSearchProgress(totalIngredientCount = ingredients.size, isSearchFinished = false)
+
         viewModelScope.launch {
             _meals.value = withContext(Dispatchers.IO) {
                 val client = OkHttpClient()
                 val potentialMeals = mutableMapOf<Int, PotentialMeal>()
+                var checkedIngredientCount = 0
 
                 ingredients.forEach { ingredient ->
                     _mealDb.searchByIngredient(ingredient.name).forEach { meal ->
@@ -57,7 +65,14 @@ class RecipeScreenViewModel : ViewModel() {
                             potentialMeals[meal.idMeal] = PotentialMeal(meal)
                         }
                     }
+
+                    _mealSearchProgress.value = MealSearchProgress(
+                        checkedIngredientCount = ++checkedIngredientCount,
+                        totalIngredientCount = ingredients.size,
+                        isSearchFinished = false
+                    )
                 }
+
                 val pmValues = potentialMeals.values
                 val sortedValues = pmValues.sortedByDescending { pm ->
                     pm.possessedIngredientCount
@@ -68,24 +83,24 @@ class RecipeScreenViewModel : ViewModel() {
                 }
             }
 
+            _mealSearchProgress.value = MealSearchProgress()
             fetchMealImages()
         }
     }
 
-    private suspend fun fetchMealImage(client: OkHttpClient, meal: Meal){
+    private suspend fun fetchMealImage(client: OkHttpClient, meal: Meal) {
         var bitmap: Bitmap? = null
 
-        if (!_mealImages.value.containsKey(meal.idMeal)){
+        if (!_mealImages.value.containsKey(meal.idMeal)) {
             val request = Request.Builder()
                 .get()
                 .url(meal.imageUrl)
                 .build()
             val response = client.newCall(request).execute()
             val responseBody = response.body
-            if (responseBody != null){
+            if (responseBody != null) {
                 bitmap = BitmapFactory.decodeStream(responseBody.byteStream())
-                if (bitmap != null)
-                {
+                if (bitmap != null) {
                     val mealImagesById = mutableMapOf<Int, ImageBitmap>()
                     mealImagesById[meal.idMeal] = bitmap.asImageBitmap()
                     _mealImages.value = _mealImages.value + mealImagesById
@@ -95,7 +110,7 @@ class RecipeScreenViewModel : ViewModel() {
     }
 
     private suspend fun fetchMealImages() {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             val client = OkHttpClient()
 
             _meals.value.forEach { meal ->
@@ -107,10 +122,9 @@ class RecipeScreenViewModel : ViewModel() {
                     .build()
                 val response = client.newCall(request).execute()
                 val responseBody = response.body
-                if (responseBody != null){
+                if (responseBody != null) {
                     bitmap = BitmapFactory.decodeStream(responseBody.byteStream())
-                    if (bitmap != null)
-                    {
+                    if (bitmap != null) {
                         val mealImagesById = mutableMapOf<Int, ImageBitmap>()
                         mealImagesById[meal.idMeal] = bitmap.asImageBitmap()
                         _mealImages.value = _mealImages.value + mealImagesById
