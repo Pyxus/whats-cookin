@@ -1,12 +1,10 @@
 package edu.towson.whatscookin.model
 
 data class Ingredient(
-
-    val id: Int,
     val name: String,
+    val id: Int,
     val description: String?,
     val imageUrl: String?
-
     ){
 
 }

@@ -46,11 +46,11 @@ class RecipeScreenViewModel : ViewModel() {
     fun updateMeals() {
         //TODO: Replace with real ingredients from database
         val ingredients = listOf(
-            Ingredient("Egg", null, "", 0),
-            Ingredient("Milk", null, "", 0),
-            Ingredient("Butter", null, "", 0),
-            Ingredient("Bacon", null, "", 0),
-            Ingredient("Plain Flour", null, "", 0),
+            Ingredient("Egg", 0,null, ""),
+            Ingredient("Milk",0, null, ""),
+            Ingredient("Butter", 0,null, ""),
+            Ingredient("Bacon", 0, null, ""),
+            Ingredient("Plain Flour", 0,null, ""),
         )
 
         _mealSearchProgress.value =
