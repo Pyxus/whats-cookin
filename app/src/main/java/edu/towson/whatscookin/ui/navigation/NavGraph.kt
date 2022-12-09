@@ -31,7 +31,7 @@ fun NavGraph(
         }
 
         composable(Screen.Recipe.route){
-            recipeScreenViewModel.updateMeals()
+
             RecipeScreen(
                 vm = recipeScreenViewModel,
                 onNavigateToRecipeDetails = {nav.navigate(Screen.RecipeDetails.route)}

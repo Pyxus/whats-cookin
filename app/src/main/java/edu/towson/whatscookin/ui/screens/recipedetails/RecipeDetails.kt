@@ -3,6 +3,7 @@ package edu.towson.whatscookin.ui.screens.recipedetails
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import edu.towson.whatscookin.ui.navigation.Screen
@@ -30,7 +31,11 @@ fun RecipeDetails(vm: RecipeScreenViewModel){
 
                 if (mealInstructions != null)
                 {
-                    Text(text = mealInstructions)
+                    LazyColumn(){
+                        item{
+                            Text(text = mealInstructions)
+                        }
+                    }
                 }
 
             }

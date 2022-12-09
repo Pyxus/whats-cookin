@@ -38,6 +38,11 @@ class RecipeScreenViewModel : ViewModel() {
     //private val _selectedMeal = mutableStateOf<Meal?>(null)
     var selectedMeal: Meal? = null
 
+    init {
+        //TODO: THIS IS JUST FOR TESTING!!!!
+        updateMeals()
+    }
+
     fun updateMeals() {
         val ingredients = listOf(
             Ingredient("Egg", null, "", 0),
