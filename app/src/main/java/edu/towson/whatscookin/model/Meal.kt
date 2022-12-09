@@ -1,5 +1,9 @@
 package edu.towson.whatscookin.model
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 data class Meal(
     val idMeal: Int,
     val name: String,
@@ -12,4 +16,6 @@ data class Meal(
     val measureByIngredient: Map<String?, String?>,
     val recipeSourceUrl: String?,
     val imageSourceUrl: String?,
-)
+){
+
+}

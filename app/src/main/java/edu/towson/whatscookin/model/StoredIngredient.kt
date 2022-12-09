@@ -1,10 +1,27 @@
 package edu.towson.whatscookin.model
 
-import java.util.*
+import androidx.compose.runtime.MutableState
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+// sqlite stored ingredient table
+@Entity(tableName = "stored_ingredients")
 data class StoredIngredient(
-    val ingredient: Ingredient,
+    @PrimaryKey(autoGenerate = true)
+    val ingredientId: Int,
+    @ColumnInfo(name = "stored_ingredient")
+    val ingredient: String,
+    @ColumnInfo(name = "ingredient_count")
     val count: Int,
-    val dateAdded: Date,
-    val expirationDate: Date,
-)
+    // String because SQLite doesn't seem to take in a Date Type, will have to be converted
+    @ColumnInfo(name = "added_date")
+    val dateAdded: String,
+    // String because SQLite doesn't seem to take in a Date Type, will have to be converted
+    @ColumnInfo(name = "expiration_date")
+    val expirationDate: String,
+    @ColumnInfo(name = "ingredient_location")
+    val location: String
+){
+
+}
