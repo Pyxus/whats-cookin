@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -25,16 +26,12 @@ import edu.towson.whatscookin.ui.shared.compose.SearchBar
 
 @Composable
 fun AddToPantry(){
-    val vm = viewModel<AddToPantryViewModel>()
-
     Column {
         Row(){
             SearchBar(modifier = Modifier.fillMaxWidth(), placeholderText = "Type ingredient name to search")
         }
         Row(){
-            IngredientCard(ingredientImage = "", ingredientName = "Chicken") {
-
-            }
+            IngredientCard(ingredientImage = "", ingredientName = "Chicken"){}
         }
     }
 }
@@ -44,8 +41,8 @@ fun AddToPantry(){
 fun IngredientCard(ingredientImage: String, ingredientName: String, onNavigateToPantry: () -> Unit) {
 
     // User input to remember
-    var amount = remember { mutableStateOf("") }
-    var expirationDate = remember { mutableStateOf("") }
+    val amount = remember { mutableStateOf("") }
+    val expirationDate = remember { mutableStateOf("") }
 
     // var to hold a new Ingredient to store
     var ingredientToAdd = StoredIngredient(0, "", 0, "", "", "")
@@ -105,7 +102,9 @@ fun IngredientCard(ingredientImage: String, ingredientName: String, onNavigateTo
                     // Text Field to enter amount
                     Text(text = (stringResource(R.string.enter_amount)),
                         fontSize = 12.sp,
-                        color = Color.Black)
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold
+                    )
                     OutlinedTextField(
                         value = amount.value,
                         onValueChange = { newAmount: String ->
@@ -132,7 +131,8 @@ fun IngredientCard(ingredientImage: String, ingredientName: String, onNavigateTo
                     Text(
                         text = (stringResource(R.string.enter_exp_date)),
                         fontSize = 12.sp,
-                        color = Color.Black
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold
                     )
                     OutlinedTextField(
                         value = expirationDate.value,
