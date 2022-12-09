@@ -32,6 +32,7 @@ import edu.towson.whatscookin.network.TheMealDB
 //TODO: Navigate to instruction screen that displays instructions to make meal when clicked.
 //      A lot of meals have youtube videos associated with them... Could look into video embedding.
 //TODO: Last item in a long list is covered by the bottom nav bar
+//Test
 
 @Composable
 fun RecipeScreen(vm: RecipeScreenViewModel, onNavigateToRecipeDetails: () -> Unit) {
