@@ -11,7 +11,7 @@ data class StoredIngredient(
     @PrimaryKey(autoGenerate = true)
     val ingredientId: Int,
     @ColumnInfo(name = "stored_ingredient")
-    val ingredient: Ingredient,
+    val ingredient: String,
     @ColumnInfo(name = "ingredient_count")
     val count: Int,
     @ColumnInfo(name = "added_date")
