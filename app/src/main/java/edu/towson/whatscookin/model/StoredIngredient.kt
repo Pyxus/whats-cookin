@@ -14,10 +14,12 @@ data class StoredIngredient(
     val ingredient: String,
     @ColumnInfo(name = "ingredient_count")
     val count: Int,
+    // String because SQLite doesn't seem to take in a Date Type, will have to be converted
     @ColumnInfo(name = "added_date")
-    val dateAdded: Date,
+    val dateAdded: String,
+    // String because SQLite doesn't seem to take in a Date Type, will have to be converted
     @ColumnInfo(name = "expiration_date")
-    val expirationDate: Date,
+    val expirationDate: String,
     @ColumnInfo(name = "ingredient_location")
     val location: String
 ){
