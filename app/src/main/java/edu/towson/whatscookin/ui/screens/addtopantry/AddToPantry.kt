@@ -1,50 +1,60 @@
 package edu.towson.whatscookin.ui.screens.addtopantry
 
-import android.graphics.Color.parseColor
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import edu.towson.whatscookin.R
+import edu.towson.whatscookin.model.StoredIngredient
+import edu.towson.whatscookin.ui.screens.pantry.PantryScreenViewModel
 import edu.towson.whatscookin.ui.shared.compose.SearchBar
 
 
 @Composable
 fun AddToPantry(){
+    val vm = viewModel<AddToPantryViewModel>()
+
     Column {
         Row(){
             SearchBar(modifier = Modifier.fillMaxWidth(), placeholderText = "Type ingredient name to search")
         }
         Row(){
+            IngredientCard(ingredientImage = "", ingredientName = "Chicken") {
 
+            }
         }
     }
 }
 
+// temporarily changed for testing, was < ingredientImage: ImageBitmap? >
 @Composable
-fun IngredientCard(ingredientImage: ImageBitmap?, ingredientName: String, onNavigateToPantry: () -> Unit) {
+fun IngredientCard(ingredientImage: String, ingredientName: String, onNavigateToPantry: () -> Unit) {
 
     // User input to remember
-    var amount = remember { mutableStateOf("0") }
-    var expirationDate = remember { mutableStateOf("YYYY-MM-DD") }
+    var amount = remember { mutableStateOf("") }
+    var expirationDate = remember { mutableStateOf("") }
+
+    // var to hold a new Ingredient to store
+    var ingredientToAdd = StoredIngredient(0, "", 0, "", "", "")
+
 
     Card(
         shape = RoundedCornerShape(5.dp),
         elevation = 1.dp,
-        backgroundColor = Color.LightGray,
+        backgroundColor = Color.Gray,
         modifier = Modifier
             .padding(
                 start = 16.dp,
@@ -58,6 +68,7 @@ fun IngredientCard(ingredientImage: ImageBitmap?, ingredientName: String, onNavi
             modifier = Modifier.padding(16.dp)
         ) {
 
+            // Image
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
@@ -65,17 +76,22 @@ fun IngredientCard(ingredientImage: ImageBitmap?, ingredientName: String, onNavi
                 Icon(
                     Icons.Filled.AddCircle,
                     "placeholder_forRecipeImage",
-                    modifier = Modifier.size(48.dp)
+                    modifier = Modifier.size(48.dp),
+                    tint = Color.Black
                 )
             }
 
+            // Ingredient name
             Row(
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text(text = ingredientName, fontSize = 24.sp)
+                Text(text = ingredientName,
+                    fontSize = 24.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.ExtraBold)
             }
 
             Row(
@@ -83,43 +99,63 @@ fun IngredientCard(ingredientImage: ImageBitmap?, ingredientName: String, onNavi
                     .padding(8.dp)
                     .fillMaxWidth()
             ) {
-                Column() {
+                Column(
+                ) {
 
-                    Text(text = "Enter Amount in kg:", fontSize = 12.sp)
+                    // Text Field to enter amount
+                    Text(text = (stringResource(R.string.enter_amount)),
+                        fontSize = 12.sp,
+                        color = Color.Black)
                     OutlinedTextField(
                         value = amount.value,
                         onValueChange = { newAmount: String ->
                             amount.value = newAmount
                         },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        placeholder = {
+                            Text(stringResource(R.string.amount_placeholder))
+                        },
                         singleLine = true,
                         colors = TextFieldDefaults.outlinedTextFieldColors(
-                            unfocusedBorderColor = Color.LightGray,
-                            backgroundColor = Color.White
+                            unfocusedBorderColor = Color.White,
+                            backgroundColor = Color.LightGray,
+                            textColor = Color.DarkGray,
+                            placeholderColor = Color.Gray
                         )
                     )
+                    Text(text = "${amount.value} kg",
+                        fontSize = 8.sp,
+                        color = Color.Black)
 
-                    Text(text = "${amount.value} kg", fontSize = 8.sp)
 
-
-
+                    // Text Field to enter Expiration Date
                     Text(
-                        text = "Enter Expiration Date (YYY-MM-DD) :",
-                        fontSize = 12.sp
+                        text = (stringResource(R.string.enter_exp_date)),
+                        fontSize = 12.sp,
+                        color = Color.Black
                     )
                     OutlinedTextField(
                         value = expirationDate.value,
                         onValueChange = { newDate: String ->
                             expirationDate.value = newDate
                         },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        placeholder = {
+                            Text(stringResource(R.string.date_placeholder))
+                        },
                         singleLine = true,
                         colors = TextFieldDefaults.outlinedTextFieldColors(
-                            unfocusedBorderColor = Color.Gray,
-                            backgroundColor = Color.White
+                            unfocusedBorderColor = Color.White,
+                            backgroundColor = Color.LightGray,
+                            textColor = Color.DarkGray,
+                            placeholderColor = Color.Gray
                         )
                     )
+                    Text(text = expirationDate.value,
+                        fontSize = 8.sp,
+                        color = Color.Black)
 
-                    Text(text = expirationDate.value, fontSize = 8.sp)
-
+                    // Button to determine where ingredient is stored
                     Row(
                         modifier = Modifier
                             .padding(top = 24.dp)
@@ -128,40 +164,61 @@ fun IngredientCard(ingredientImage: ImageBitmap?, ingredientName: String, onNavi
                     ) {
                         Column() {
                             Button(
-                                onClick = { /*TODO*/ },
+                                onClick = {
+//                                    ingredientToAdd = StoredIngredient(1,
+//                                        ingredientName,
+//                                        amount.toString().toInt(),
+//                                        "2022-12-09",
+//                                        expirationDate.toString(),
+//                                        "pantry")
+                                          },
                                 colors = ButtonDefaults.outlinedButtonColors(
                                     contentColor = Color.DarkGray
                                 )
 
                             ) {
                                 Text(
-                                    text = " Place in Pantry ",
+                                    text = (stringResource(R.string.place_pantry)),
                                     color = Color.White
                                 )
                             }
 
                             Button(
-                                onClick = { /*TODO*/ },
+                                onClick = {
+//                                    ingredientToAdd = StoredIngredient(2,
+//                                    ingredientName,
+//                                    amount.toString().toInt(),
+//                                    "2022-12-09",
+//                                    expirationDate.toString(),
+//                                    "fridge")
+                                          },
                                 colors = ButtonDefaults.outlinedButtonColors(
                                     contentColor = Color.DarkGray
                                 )
 
                             ) {
                                 Text(
-                                    text = " Place in Fridge ",
+                                    text = (stringResource(R.string.place_fridge)),
                                     color = Color.White
                                 )
                             }
 
                             Button(
-                                onClick = { /*TODO*/ },
+                                onClick = {
+//                                    ingredientToAdd = StoredIngredient(3,
+//                                    ingredientName,
+//                                    amount.toString().toInt(),
+//                                    "2022-12-09",
+//                                    expirationDate.toString(),
+//                                    "freezer")
+                                    },
                                 colors = ButtonDefaults.outlinedButtonColors(
                                     contentColor = Color.DarkGray
                                 )
 
                             ) {
                                 Text(
-                                    text = "Place in Freezer",
+                                    text = (stringResource(R.string.place_freezer)),
                                     color = Color.White
                                 )
                             }
