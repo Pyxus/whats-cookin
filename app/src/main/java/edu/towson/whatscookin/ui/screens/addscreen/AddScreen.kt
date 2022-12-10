@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-//@Composable
-//fun AddScreen(){
+@Composable
+fun AddScreen(){
 //    Column() {
 //        Row(
 //            modifier = Modifier.padding(16.dp),
@@ -22,4 +22,4 @@ import androidx.compose.ui.unit.dp
 //
 //        }
 //    }
-//}
+}
