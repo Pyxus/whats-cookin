@@ -110,8 +110,8 @@ fun AddScreenCard(count: MutableState<String>) {
             .fillMaxWidth(),
         contentColor = MaterialTheme.colors.primary
     ) {
-        Column() {
-            Row() {
+        Column {
+            Row {
                 Text(
                     text = "ingredient.name",
                     modifier = Modifier.padding(16.dp),
@@ -173,7 +173,6 @@ fun StorageLocationDropdown() {
     var selectedIndex by remember { mutableStateOf(0) }
 
     val items = listOf("Pantry", "Fridge", "Freezer")
-    val disabledValue = ""
 
     Box(
         modifier = Modifier
