@@ -9,11 +9,13 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
+//TODO - add search function
+
 @Composable
-fun SearchBar(modifier: Modifier = Modifier, placeholderText: String = "") {
+fun SearchBar(modifier: Modifier = Modifier, placeholderText: String = "", onValueChange: (String) -> Unit = {}, value: String) {
     TextField(
-        value = "",
-        onValueChange = {},
+        value = value,
+        onValueChange = { text -> onValueChange(text) },
         placeholder = {
             Text(placeholderText)
         },
@@ -23,6 +25,7 @@ fun SearchBar(modifier: Modifier = Modifier, placeholderText: String = "") {
                 contentDescription = "Search pantry"
             )
         },
-        modifier = modifier
+        modifier = modifier,
+        singleLine = true
     )
 }

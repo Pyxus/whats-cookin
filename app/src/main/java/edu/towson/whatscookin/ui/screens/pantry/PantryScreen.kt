@@ -72,11 +72,11 @@ fun Header(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        SearchBar(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 25.dp, end = 25.dp, top = 15.dp, bottom = 5.dp)
-        )
+//        SearchBar(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(start = 25.dp, end = 25.dp, top = 15.dp, bottom = 5.dp)
+//        )
     }
     LazyRow(
         contentPadding = PaddingValues(horizontal = 19.dp)

@@ -19,9 +19,10 @@ class AddToPantryViewModel : ViewModel() {
     private val _allIngredients: MutableState<List<Ingredient>> = mutableStateOf(listOf())
     private val _selectedIngredients: MutableState<Set<Int>> = mutableStateOf(setOf())
     private val _ingredients: MutableState<List<StoredIngredient>> = mutableStateOf(listOf())
+    var searchText = mutableStateOf("")
 
     val ingredients: State<List<StoredIngredient>> = _ingredients
-    val allIngredients : State<List<Ingredient>> = _allIngredients
+    val allIngredients: State<List<Ingredient>> = _allIngredients
     val selectedIngredients: State<Set<Int>> = _selectedIngredients
 
     init {
@@ -34,11 +35,12 @@ class AddToPantryViewModel : ViewModel() {
         }
     }
 
-    fun toggleSelection(id: Int){
+    fun toggleSelection(id: Int) {
 
         if (_selectedIngredients.value.contains(id)) {
-            _selectedIngredients.value = _selectedIngredients.value.filter{ element -> element != id }.toSet()
-        } else{
+            _selectedIngredients.value =
+                _selectedIngredients.value.filter { element -> element != id }.toSet()
+        } else {
             _selectedIngredients.value = _selectedIngredients.value + setOf(id)
         }
     }

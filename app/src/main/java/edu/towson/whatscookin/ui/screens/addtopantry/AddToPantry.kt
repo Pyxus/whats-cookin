@@ -38,13 +38,24 @@ fun AddToPantry() {
         Row() {
             SearchBar(
                 modifier = Modifier.fillMaxWidth(),
-                placeholderText = "Type ingredient name to search"
+                placeholderText = "Type ingredient name to search",
+                value = vm.searchText.value,
+                onValueChange = { text ->
+                    vm.searchText.value = text
+                }
             )
         }
         Row() {
             LazyColumn() {
-                items(vm.allIngredients.value) { ingredient ->
-                    IngredientRow(ingredient = ingredient, vm = vm)
+
+                if (vm.searchText.value.isEmpty()) {
+                    items(vm.allIngredients.value) { ingredient ->
+                        IngredientRow(ingredient = ingredient, vm = vm)
+                    }
+                } else {
+                    items(vm.allIngredients.value.filter { ingredient -> false }){ ingredient ->
+                        IngredientRow(ingredient = ingredient, vm = vm)
+                    }
                 }
             }
         }
@@ -96,35 +107,35 @@ fun IngredientRow(ingredient: Ingredient, vm: AddToPantryViewModel) {
 }
 
 
-// temporarily changed for testing, was < ingredientImage: ImageBitmap? >
-@Composable
-fun IngredientCard(
-    ingredientImage: String,
-    ingredientName: String,
-    onNavigateToPantry: () -> Unit
-) {
-
-    // User input to remember
-    val amount = remember { mutableStateOf("") }
-    val expirationDate = remember { mutableStateOf("") }
-
-    // var to hold a new Ingredient to store
-    var ingredientToAdd = StoredIngredient(0, "", 0, "", "", "")
-
-
-    Card(
-        shape = RoundedCornerShape(5.dp),
-        elevation = 1.dp,
-        backgroundColor = Color.Gray,
-        modifier = Modifier
-            .padding(
-                start = 16.dp,
-                end = 16.dp,
-                top = 8.dp,
-                bottom = 8.dp
-            )
-            .fillMaxWidth()
-    ) {
-
-    }
-}
+//// temporarily changed for testing, was < ingredientImage: ImageBitmap? >
+//@Composable
+//fun IngredientCard(
+//    ingredientImage: String,
+//    ingredientName: String,
+//    onNavigateToPantry: () -> Unit
+//) {
+//
+//    // User input to remember
+//    val amount = remember { mutableStateOf("") }
+//    val expirationDate = remember { mutableStateOf("") }
+//
+//    // var to hold a new Ingredient to store
+//    var ingredientToAdd = StoredIngredient(0, "", 0, "", "", "")
+//
+//
+//    Card(
+//        shape = RoundedCornerShape(5.dp),
+//        elevation = 1.dp,
+//        backgroundColor = Color.Gray,
+//        modifier = Modifier
+//            .padding(
+//                start = 16.dp,
+//                end = 16.dp,
+//                top = 8.dp,
+//                bottom = 8.dp
+//            )
+//            .fillMaxWidth()
+//    ) {
+//
+//    }
+//}

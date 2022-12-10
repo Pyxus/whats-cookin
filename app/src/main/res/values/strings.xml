@@ -5,7 +5,5 @@
     <string name="date_placeholder">YYYY-MM-DD</string>
     <string name="enter_amount">Enter Amount in kg:</string>
     <string name="enter_exp_date">Enter Expiration Date (YYY-MM-DD) :</string>
-    <string name="place_pantry"> Place in Pantry </string>
-    <string name="place_fridge"> Place in Fridge </string>
-    <string name="place_freezer">Place in Freezer</string>
+    <string name="enter_count">Enter Count</string>
 </resources>
