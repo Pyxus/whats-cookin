@@ -1,6 +1,11 @@
 package edu.towson.whatscookin.ui.screens.addtopantry
 
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -9,6 +14,7 @@ import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -19,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import edu.towson.whatscookin.R
+import edu.towson.whatscookin.model.Ingredient
 import edu.towson.whatscookin.model.StoredIngredient
 import edu.towson.whatscookin.ui.screens.pantry.PantryScreenViewModel
 import edu.towson.whatscookin.ui.shared.compose.SearchBar
@@ -26,13 +33,58 @@ import edu.towson.whatscookin.ui.shared.compose.SearchBar
 
 @Composable
 fun AddToPantry(){
+    val vm = viewModel<AddToPantryViewModel>()
     Column {
         Row(){
             SearchBar(modifier = Modifier.fillMaxWidth(), placeholderText = "Type ingredient name to search")
         }
         Row(){
-            IngredientCard(ingredientImage = "", ingredientName = "Chicken"){}
+            LazyColumn(){
+                items (vm.allIngredients.value){
+                    ingredient -> IngredientRow(ingredient = ingredient)
+                }
+            }
         }
+    }
+}
+
+@Composable
+fun IngredientRow(ingredient: Ingredient){
+    Card(
+        shape = RoundedCornerShape(5.dp),
+        elevation = 1.dp,
+        backgroundColor = MaterialTheme.colors.primary,
+        modifier = Modifier
+            .padding(
+                start = 2.dp,
+                end = 2.dp,
+                top = 2.dp,
+                bottom = 2.dp
+            )
+            .fillMaxWidth()
+            .clickable {
+
+            }
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+        ) {
+            Column(
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(text = ingredient.name, color = MaterialTheme.colors.background)
+            }
+        }
+    }
+}
+
+@Composable
+fun AddRow(ingredient: Ingredient){
+    Column(modifier = Modifier) {
+
     }
 }
 

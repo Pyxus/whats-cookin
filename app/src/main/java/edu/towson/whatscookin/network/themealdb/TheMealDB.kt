@@ -80,7 +80,7 @@ class TheMealDB {
     }
 
     // Returns a list of all ingredients available in MealDB
-    suspend fun getAllIngredients() {
+    suspend fun getAllIngredients(): List<Ingredient> {
         return withContext(Dispatchers.IO) {
             val request = Request.Builder()
                 .get()
@@ -100,6 +100,9 @@ class TheMealDB {
                         id = ingredient.idIngredient,
                     )
                 }
+                ingredientList
+            }else{
+                listOf()
             }
         }
     }
