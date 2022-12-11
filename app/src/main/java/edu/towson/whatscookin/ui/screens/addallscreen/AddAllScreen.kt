@@ -54,7 +54,7 @@ fun AddAllTopBar() {
             Text(
                 text = "Add to Storage",
                 fontSize = 24.sp,
-                color = MaterialTheme.colors.primary,
+                color = MaterialTheme.colors.background,
                 fontWeight = FontWeight.ExtraBold
             )
         }
@@ -64,7 +64,7 @@ fun AddAllTopBar() {
         ) {
             Text(
                 text = "(Choose ingredient count and location for each)",
-                color = MaterialTheme.colors.primary,
+                color = MaterialTheme.colors.background,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
         }
@@ -83,7 +83,7 @@ fun AddAllButton() {
             onClick = {
                 checkAdd.value = true
             },
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier.padding(start = 12.dp, bottom = 72.dp),
             backgroundColor = MaterialTheme.colors.primary,
 
             ) {
