@@ -30,7 +30,7 @@ import edu.towson.whatscookin.ui.screens.recipie.RecipeScreenViewModel
 fun RecipeDetails(vm: RecipeScreenViewModel) {
     val selectedMeal = vm.selectedMeal
     if (selectedMeal != null) {
-        LazyColumn(contentPadding = PaddingValues(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 64.dp)) {
+        LazyColumn(contentPadding = PaddingValues(bottom = 64.dp)) {
             item {
                 Column() {
                     Row() {
