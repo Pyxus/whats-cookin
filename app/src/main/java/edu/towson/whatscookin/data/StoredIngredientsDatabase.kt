@@ -1,6 +1,7 @@
 package edu.towson.whatscookin.data
 
 import androidx.room.*
+import edu.towson.whatscookin.model.Ingredient
 import edu.towson.whatscookin.model.StoredIngredient
 
 @Dao
@@ -10,7 +11,7 @@ interface StoredIngredientsDao {
     fun addIngredient(ingredient: StoredIngredient)
 
     @Delete
-    fun deleteIngredients(index: Int)
+    fun deleteIngredients(ingredient: StoredIngredient)
 
     // Return names of all stored ingredients
     @Query("SELECT * FROM stored_ingredients")

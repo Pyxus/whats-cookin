@@ -4,6 +4,6 @@ import edu.towson.whatscookin.model.StoredIngredient
 
 interface InterfaceStoredIngredientsDatabase {
     suspend fun addIngredient(ingredient: StoredIngredient)
-    suspend fun deleteIngredient(index: Int)
+    suspend fun deleteIngredient(idx: Int)
     suspend fun getIngredients(): List<StoredIngredient>
 }

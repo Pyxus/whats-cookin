@@ -51,9 +51,11 @@ class AddToPantryViewModel(app: Application) : AndroidViewModel(app) {
 
     }
 
-    suspend fun deleteIngredient(index: Int){
-        _repository.deleteIngredient(index)
-        _ingredients.value = _repository.getIngredients()
+    suspend fun deleteIngredient(idx: Int){
+        viewModelScope.launch{
+            _repository.deleteIngredient(idx)
+            _ingredients.value = _repository.getIngredients()
+        }
     }
 
 

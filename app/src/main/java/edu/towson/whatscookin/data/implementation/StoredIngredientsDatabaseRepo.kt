@@ -5,6 +5,7 @@ import androidx.compose.runtime.State
 import androidx.room.Room
 import edu.towson.whatscookin.data.InterfaceStoredIngredientsDatabase
 import edu.towson.whatscookin.data.StoredIngredientsDatabase
+import edu.towson.whatscookin.model.Ingredient
 import edu.towson.whatscookin.model.StoredIngredient
 
 
@@ -18,13 +19,17 @@ class StoredIngredientsDatabaseRepo(wc_app: Application, ingredients: State<List
             StoredIngredientsDatabase::class.java,
             "ingredient_store"
         ).build()
+
+//        ingredients.forEach {
+//            ingredient: Ingredient -> sidb.storedIngredientsDao().addIngredient(ingredient)
+//        }
     }
 
     override suspend fun addIngredient(ingredient: StoredIngredient) {
-        TODO("Not yet implemented")
+        sidb.storedIngredientsDao().addIngredient(ingredient)
     }
 
-    override suspend fun deleteIngredient(index: Int) {
+    override suspend fun deleteIngredient(idx: Int) {
         TODO("Not yet implemented")
     }
 

@@ -18,7 +18,7 @@ data class StoredIngredient(
     @ColumnInfo(name = "added_date")
     val dateAdded: String,
     // String because SQLite doesn't seem to take in a Date Type, will have to be converted
-    @ColumnInfo(name = "expiration_date")
+    // @ColumnInfo(name = "expiration_date")
     val expirationDate: String,
     @ColumnInfo(name = "ingredient_location")
     val location: String

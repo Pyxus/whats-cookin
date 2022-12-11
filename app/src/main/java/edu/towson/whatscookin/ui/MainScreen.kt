@@ -29,6 +29,8 @@ fun MainScreen() {
     val backStackEntry = nav.currentBackStackEntryAsState()
     val currentDestination = backStackEntry.value?.destination
 
+
+
     Scaffold(
 
         bottomBar = { BottomBar(nav) },
