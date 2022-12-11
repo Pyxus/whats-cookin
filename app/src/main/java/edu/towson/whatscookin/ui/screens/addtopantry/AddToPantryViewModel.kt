@@ -1,10 +1,13 @@
 package edu.towson.whatscookin.ui.screens.addtopantry
 
+import android.app.Application
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import edu.towson.whatscookin.data.InterfaceStoredIngredientsDatabase
+import edu.towson.whatscookin.data.implementation.StoredIngredientsDatabaseRepo
 import edu.towson.whatscookin.model.Ingredient
 import edu.towson.whatscookin.model.StoredIngredient
 import edu.towson.whatscookin.network.TheMealDB
@@ -12,18 +15,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AddToPantryViewModel : ViewModel() {
+class AddToPantryViewModel(app: Application) : AndroidViewModel(app) {
 
     private val theMealDB = TheMealDB()
 
     private val _allIngredients: MutableState<List<Ingredient>> = mutableStateOf(listOf())
     private val _selectedIngredients: MutableState<Set<Int>> = mutableStateOf(setOf())
     private val _ingredients: MutableState<List<StoredIngredient>> = mutableStateOf(listOf())
+
     var searchText = mutableStateOf("")
 
     val ingredients: State<List<StoredIngredient>> = _ingredients
     val allIngredients: State<List<Ingredient>> = _allIngredients
     val selectedIngredients: State<Set<Int>> = _selectedIngredients
+
+    private lateinit var _repository: InterfaceStoredIngredientsDatabase
 
     init {
         viewModelScope.launch {
@@ -31,9 +37,25 @@ class AddToPantryViewModel : ViewModel() {
                 Dispatchers.IO
             ) {
                 _allIngredients.value = theMealDB.getAllIngredients()
+                _repository = StoredIngredientsDatabaseRepo(getApplication(), ingredients)
             }
         }
     }
+
+    fun addIngredient(ingredient: StoredIngredient) {
+        viewModelScope.launch{
+            _repository.addIngredient(ingredient)
+            _ingredients.value = _repository.getIngredients()
+
+        }
+
+    }
+
+    suspend fun deleteIngredient(index: Int){
+        _repository.deleteIngredient(index)
+        _ingredients.value = _repository.getIngredients()
+    }
+
 
     fun toggleSelection(id: Int) {
 
@@ -44,7 +66,4 @@ class AddToPantryViewModel : ViewModel() {
             _selectedIngredients.value = _selectedIngredients.value + setOf(id)
         }
     }
-
-    //fun setIngredient(){}
-    //fun setCount(){}
 }

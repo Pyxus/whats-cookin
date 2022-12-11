@@ -6,18 +6,15 @@ import edu.towson.whatscookin.model.StoredIngredient
 @Dao
 interface StoredIngredientsDao {
 
+    @Insert
+    fun addIngredient(ingredient: StoredIngredient)
+
+    @Delete
+    fun deleteIngredients(index: Int)
+
     // Return names of all stored ingredients
-    @Query("SELECT stored_ingredient FROM stored_ingredients")
-    fun getAllIngredientsName(): List<String>
-
-    // Return names of all stored ingredients which have expired
-    @Query("SELECT stored_ingredient FROM stored_ingredients WHERE expiration_date < DATE()")
-    fun getAllExpiredIngredients(): List<String>
-
-    // Delete all stored ingredients which have expired
-    // Need to lookup how to check against current day
-    @Delete()
-    fun removeExpiredIngredients(ingredientToDelete: StoredIngredient)
+    @Query("SELECT * FROM stored_ingredients")
+    fun getIngredients(): List<StoredIngredient>
 
 }
 

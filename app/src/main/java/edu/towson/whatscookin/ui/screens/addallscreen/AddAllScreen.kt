@@ -83,7 +83,7 @@ fun AddAllButton() {
             onClick = {
                 checkAdd.value = true
             },
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier.padding(start = 12.dp, bottom = 72.dp),
             backgroundColor = MaterialTheme.colors.primary,
 
             ) {
