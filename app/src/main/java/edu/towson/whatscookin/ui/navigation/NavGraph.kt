@@ -2,14 +2,12 @@ package edu.towson.whatscookin.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import edu.towson.whatscookin.ui.screens.addallscreen.AddScreen
 import edu.towson.whatscookin.ui.screens.addtopantry.AddToPantry
-import edu.towson.whatscookin.ui.screens.home.HomeScreen
 import edu.towson.whatscookin.ui.screens.pantry.PantryScreen
 import edu.towson.whatscookin.ui.screens.recipedetails.RecipeDetails
 import edu.towson.whatscookin.ui.screens.recipie.RecipeScreen
@@ -27,7 +25,10 @@ fun NavGraph(
         }
 
         composable(Screen.AddToPantry.route){
-            AddToPantry()
+            //vm = AddToPantryViewModel,
+            AddToPantry(onAddIngredientsClicked = {
+                nav.navigate(Screen.AddAllScreen.route)
+            })
         }
 
         composable(Screen.Recipe.route){
@@ -46,5 +47,10 @@ fun NavGraph(
 
         composable(Screen.Tools.route){
         }
+
+        composable(Screen.AddAllScreen.route){
+            AddScreen()
+        }
+
     }
 }
