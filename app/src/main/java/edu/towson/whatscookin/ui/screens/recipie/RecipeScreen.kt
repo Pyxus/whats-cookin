@@ -32,12 +32,14 @@ import edu.towson.whatscookin.network.TheMealDB
 //TODO: Navigate to instruction screen that displays instructions to make meal when clicked.
 //      A lot of meals have youtube videos associated with them... Could look into video embedding.
 //TODO: Last item in a long list is covered by the bottom nav bar
-//Test
 
 @Composable
 fun RecipeScreen(vm: RecipeScreenViewModel, onNavigateToRecipeDetails: () -> Unit) {
-    if (vm.mealSearchProgress.value.isSearchFinished){
-        LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+    if (vm.mealSearchProgress.value.isSearchFinished) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 128.dp),
+        ) {
             items(vm.meals.value) { meal ->
                 MealCard(
                     mealImage = vm.mealImages.value[meal.idMeal],
@@ -48,8 +50,8 @@ fun RecipeScreen(vm: RecipeScreenViewModel, onNavigateToRecipeDetails: () -> Uni
                     }
                 )
             }
-        }   
-    } else{
+        }
+    } else {
         val progress: Float by animateFloatAsState(
             targetValue = vm.mealSearchProgress.value.getProgressFraction(),
             animationSpec = tween(1000),
@@ -62,7 +64,7 @@ fun RecipeScreen(vm: RecipeScreenViewModel, onNavigateToRecipeDetails: () -> Uni
             Row() {
                 LinearProgressIndicator(progress = progress)
             }
-            Row(){
+            Row() {
                 Text(text = "Figuring out what's on the menu!")
             }
         }
