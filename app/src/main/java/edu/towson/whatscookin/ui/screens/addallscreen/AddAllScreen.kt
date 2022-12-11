@@ -73,13 +73,15 @@ fun AddAllTopBar() {
 
 @Composable
 fun AddAllButton() {
+    val checkAdd = remember { mutableStateOf(false) }
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start
     ) {
         FloatingActionButton(
             onClick = {
-
+                checkAdd.value = true
             },
             modifier = Modifier.padding(12.dp),
             backgroundColor = MaterialTheme.colors.primary,
@@ -90,6 +92,38 @@ fun AddAllButton() {
                 "addAll",
                 modifier = Modifier.size(32.dp),
                 tint = MaterialTheme.colors.primaryVariant
+            )
+        }
+
+        if (checkAdd.value){
+            AlertDialog(
+                onDismissRequest = { checkAdd.value = false },
+                title = {
+                    Text(text = "Add All")
+                },
+                text = {
+                    Text(text = "Are you sure you want to add all?")
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            checkAdd.value = false
+                        },
+                        modifier = Modifier.padding(bottom = 8.dp, end = 8.dp)
+                    ) {
+                        Text(text = "Yes")
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            checkAdd.value = false
+                        },
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    ) {
+                        Text(text = "No")
+                    }
+                }
             )
         }
     }
