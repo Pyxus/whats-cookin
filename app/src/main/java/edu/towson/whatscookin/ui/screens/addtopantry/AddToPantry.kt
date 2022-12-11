@@ -56,9 +56,12 @@ fun AddToPantry() {
                     }
                 } else {
                     val filteredIngredients = vm.allIngredients.value.filter { ingredient ->
+                        // The Sorensen-Dice algorithm used in similairty() is based off a statistic
+                        // So the more input there is, the more accurate it is.
                         when (searchText.length) {
                             1 -> ingredient.name.startsWith(searchText, true)
-                            else -> ingredient.name.similarity(searchText) >= .4f
+                            2 -> ingredient.name.similarity(searchText) >= .2f
+                            else -> ingredient.name.similarity(searchText) > .4f
                         }
                     }
 
