@@ -8,9 +8,9 @@ data class MealsSchema(
 data class MealSchema(
     val idMeal: Int,
     val strMeal: String,
-    val strCategory: String?,
-    val strArea: String?,
-    val strInstructions: String?,
+    val strCategory: String,
+    val strArea: String,
+    val strInstructions: String,
     val strMealThumb: String,
     val strTags: String?,
     val strYoutube: String?,
@@ -58,33 +58,65 @@ data class MealSchema(
     val strImageSource: String?,
     val strCreativeCommonsConfirmed: String?,
     val dateModified: String?,
-){
-    fun measureByIngredientMap(): Map<String?, String?> {
-        return mapOf(
-            strIngredient1 to strMeasure1,
-            strIngredient2 to strMeasure2,
-            strIngredient3 to strMeasure3,
-            strIngredient4 to strMeasure4,
-            strIngredient5 to strMeasure5,
-            strIngredient6 to strMeasure6,
-            strIngredient7 to strMeasure7,
-            strIngredient8 to strMeasure8,
-            strIngredient9 to strMeasure9,
-            strIngredient10 to strMeasure10,
-            strIngredient11 to strMeasure11,
-            strIngredient12 to strMeasure12,
-            strIngredient13 to strMeasure13,
-            strIngredient14 to strMeasure14,
-            strIngredient15 to strMeasure15,
-            strIngredient16 to strMeasure16,
-            strIngredient17 to strMeasure17,
-            strIngredient18 to strMeasure18,
-            strIngredient19 to strMeasure19,
-            strIngredient20 to strMeasure20,
+) {
+    fun measureByIngredientMap(): Map<String, String> {
+        val map = mutableMapOf<String, String>()
+        val ingredients = listOf(
+            strIngredient1,
+            strIngredient2,
+            strIngredient3,
+            strIngredient4,
+            strIngredient5,
+            strIngredient6,
+            strIngredient7,
+            strIngredient8,
+            strIngredient9,
+            strIngredient10,
+            strIngredient11,
+            strIngredient12,
+            strIngredient13,
+            strIngredient14,
+            strIngredient15,
+            strIngredient16,
+            strIngredient17,
+            strIngredient18,
+            strIngredient19,
+            strIngredient20
         )
+        val measures = listOf(
+            strMeasure1,
+            strMeasure2,
+            strMeasure3,
+            strMeasure4,
+            strMeasure5,
+            strMeasure6,
+            strMeasure7,
+            strMeasure8,
+            strMeasure9,
+            strMeasure10,
+            strMeasure11,
+            strMeasure12,
+            strMeasure13,
+            strMeasure14,
+            strMeasure15,
+            strMeasure16,
+            strMeasure17,
+            strMeasure18,
+            strMeasure19,
+            strMeasure20
+        )
+
+        ingredients.forEachIndexed { i, ingredientName ->
+            val measure = measures[i]
+            if (!ingredientName.isNullOrEmpty() && !measure.isNullOrEmpty()){
+                map[ingredientName] = measure
+            }
+        }
+
+        return map
     }
 
-    fun tagsToList(): List<String>{
+    fun tagsToList(): List<String> {
         return strTags?.split(",") ?: listOf()
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import edu.towson.whatscookin.ui.navigation.Screen
@@ -25,6 +26,27 @@ fun RecipeDetails(vm: RecipeScreenViewModel){
             }
             Row() {
                 Text(text = selectedMeal.name)
+            }
+            Row(){
+                LazyColumn(){
+                    items(selectedMeal.measureByIngredient.keys.toList()){ingredient ->
+                        if (ingredient != null)
+                        {
+                            Row() {
+                                Column() {
+                                    Text(ingredient)
+                                }
+                                Column() {
+                                    val measure = selectedMeal.measureByIngredient[ingredient]
+                                    if (measure != null)
+                                    {
+                                        Text(measure)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
             Row(){
                 val mealInstructions = selectedMeal.instructions
