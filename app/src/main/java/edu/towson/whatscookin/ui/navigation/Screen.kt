@@ -9,5 +9,5 @@ sealed class Screen(val route: String){
     object AddToPantry: Screen(route = "add-to-pantry")
     object ViewPantryItem: Screen(route = "view-pantry-item")
     object RecipeDetails: Screen(route = "recipe-details")
-    object AddScreen: Screen(route = "add-all-screen")
+    object AddAllScreen: Screen(route = "add-all-screen")
 }

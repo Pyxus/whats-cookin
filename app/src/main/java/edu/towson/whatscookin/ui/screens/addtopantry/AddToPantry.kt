@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import edu.towson.whatscookin.R
+import edu.towson.whatscookin.ext.similarity
 import edu.towson.whatscookin.model.Ingredient
 import edu.towson.whatscookin.model.StoredIngredient
 import edu.towson.whatscookin.ui.screens.pantry.PantryScreenViewModel
@@ -32,31 +34,69 @@ import edu.towson.whatscookin.ui.shared.compose.SearchBar
 
 
 @Composable
-fun AddToPantry() {
+fun AddToPantry(onAddIngredientsClicked: () -> Unit) {
     val vm = viewModel<AddToPantryViewModel>()
-    Column {
-        Row() {
-            SearchBar(
-                modifier = Modifier.fillMaxWidth(),
-                placeholderText = "Type ingredient name to search",
-                value = vm.searchText.value,
-                onValueChange = { text ->
-                    vm.searchText.value = text
-                }
-            )
-        }
-        Row() {
-            LazyColumn() {
 
-                if (vm.searchText.value.isEmpty()) {
-                    items(vm.allIngredients.value) { ingredient ->
-                        IngredientRow(ingredient = ingredient, vm = vm)
-                    }
-                } else {
-                    items(vm.allIngredients.value.filter { ingredient -> false }){ ingredient ->
-                        IngredientRow(ingredient = ingredient, vm = vm)
-                    }
+    Scaffold(
+        bottomBar = {
+            BottomAppBar() {
+                // Intentionally empty. Only way I could get the FAB to move up
+            }
+        },
+        floatingActionButton = {
+            if (vm.selectedIngredients.value.isNotEmpty()) {
+                FloatingActionButton(onClick = { onAddIngredientsClicked() }) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = "Add new pantry item",
+                    )
                 }
+            }
+        }) { _ ->
+        Column {
+            Row() {
+                SearchBar(
+                    modifier = Modifier.fillMaxWidth(),
+                    placeholderText = "Type ingredient name to search",
+                    value = vm.searchText.value,
+                    onValueChange = { text ->
+                        vm.searchText.value = text
+                    }
+                )
+            }
+            Row() {
+                IngredientList(vm = vm)
+            }
+        }
+    }
+}
+
+@Composable
+fun IngredientList(vm: AddToPantryViewModel) {
+    LazyColumn() {
+        val searchText = vm.searchText.value
+
+        if (searchText.isEmpty()) {
+            items(vm.allIngredients.value) { ingredient ->
+                IngredientRow(ingredient = ingredient, vm = vm)
+            }
+        } else {
+            val filteredIngredients = vm.allIngredients.value.filter { ingredient ->
+                // The Sorensen-Dice algorithm used in similairty() is based off a statistic
+                // So the more input there is, the more accurate it is.
+                when (searchText.length) {
+                    1 -> ingredient.name.startsWith(searchText, true)
+                    2 -> ingredient.name.similarity(searchText) >= .2f
+                    else -> ingredient.name.similarity(searchText) > .4f
+                }
+            }
+
+            items(filteredIngredients.sortedByDescending { ingredient ->
+                ingredient.name.similarity(
+                    searchText
+                )
+            }) { ingredient ->
+                IngredientRow(ingredient = ingredient, vm = vm)
             }
         }
     }
