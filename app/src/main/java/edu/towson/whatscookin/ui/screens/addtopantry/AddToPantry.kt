@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import edu.towson.whatscookin.R
+import edu.towson.whatscookin.ext.similarity
 import edu.towson.whatscookin.model.Ingredient
 import edu.towson.whatscookin.model.StoredIngredient
 import edu.towson.whatscookin.ui.screens.pantry.PantryScreenViewModel
@@ -47,13 +48,25 @@ fun AddToPantry() {
         }
         Row() {
             LazyColumn() {
+                val searchText = vm.searchText.value
 
-                if (vm.searchText.value.isEmpty()) {
+                if (searchText.isEmpty()) {
                     items(vm.allIngredients.value) { ingredient ->
                         IngredientRow(ingredient = ingredient, vm = vm)
                     }
                 } else {
-                    items(vm.allIngredients.value.filter { ingredient -> false }){ ingredient ->
+                    val filteredIngredients = vm.allIngredients.value.filter { ingredient ->
+                        when (searchText.length) {
+                            1 -> ingredient.name.startsWith(searchText, true)
+                            else -> ingredient.name.similarity(searchText) >= .4f
+                        }
+                    }
+
+                    items(filteredIngredients.sortedByDescending { ingredient ->
+                        ingredient.name.similarity(
+                            searchText
+                        )
+                    }) { ingredient ->
                         IngredientRow(ingredient = ingredient, vm = vm)
                     }
                 }
