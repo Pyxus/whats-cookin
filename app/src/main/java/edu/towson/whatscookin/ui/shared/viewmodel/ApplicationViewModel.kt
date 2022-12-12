@@ -41,4 +41,11 @@ class ApplicationViewModel(app: Application) : AndroidViewModel(app) {
             _ingredients.value = db.ingredientDao().getIngredients()
         }
     }
+
+    fun deleteIngredient(ingredient: StoredIngredient){
+        viewModelScope.launch {
+            db.ingredientDao().deleteIngredient(ingredient)
+            _ingredients.value = db.ingredientDao().getIngredients()
+        }
+    }
 }

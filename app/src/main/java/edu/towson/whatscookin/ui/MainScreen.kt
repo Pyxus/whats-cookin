@@ -26,27 +26,9 @@ import edu.towson.whatscookin.ui.navigation.Screen
 @Composable
 fun MainScreen() {
     val nav = rememberNavController()
-    val backStackEntry = nav.currentBackStackEntryAsState()
-    val currentDestination = backStackEntry.value?.destination
-
-
 
     Scaffold(
-
         bottomBar = { BottomBar(nav) },
-        floatingActionButton = {
-            if (currentDestination?.route == Screen.Pantry.route) {
-                FloatingActionButton(backgroundColor = MaterialTheme.colors.secondary, onClick = {
-                    nav.navigate(Screen.AddToPantry.route)
-                }) {
-                    Icon(
-                        imageVector = Icons.Filled.Add,
-                        contentDescription = "Add new pantry item",
-                    )
-                }
-            }
-
-        },
     ) { padding ->
         print(padding)
         NavGraph(nav)

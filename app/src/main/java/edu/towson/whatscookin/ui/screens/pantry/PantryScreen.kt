@@ -1,8 +1,6 @@
 package edu.towson.whatscookin.ui.screens.pantry
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -10,10 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Fastfood
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,12 +27,48 @@ import edu.towson.whatscookin.ui.shared.viewmodel.ApplicationViewModel
 fun PantryScreen(
     vm: PantryScreenViewModel,
     appVm: ApplicationViewModel,
+    onNavigateToAddPantry: () -> Unit,
 ) {
-    Scaffold(topBar = {
-        TopAppBar() {
-            TopBar()
-        }
-    }) { padding ->
+    Scaffold(
+        topBar = {
+            TopAppBar() {
+                TopBar()
+            }
+        },
+        bottomBar = {
+            BottomAppBar() {
+                // Intentionally empty. Only way I could get the FAB to move up
+            }
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                backgroundColor = MaterialTheme.colors.secondary,
+                onClick = {
+                    if (vm.isDeleteInitiated.value) {
+                        vm.ingredientsSelectedForDeletion.value.forEach { storedIngredient ->
+                            appVm.deleteIngredient(storedIngredient)
+                            vm.clearDeleteQueue()
+                        }
+
+                    }
+                    else{
+                        onNavigateToAddPantry()
+                    }
+                }) {
+                if (vm.isDeleteInitiated.value) {
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = "Delete selected pantry items"
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = "Add new pantry item",
+                    )
+                }
+            }
+        },
+    ) { padding ->
         Column(
             modifier = Modifier.padding(padding)
         ) {
@@ -76,7 +107,7 @@ private fun Header(
         SearchBar(
             value = vm.searchText.value,
             placeholderText = "Search your pantry",
-            onValueChange = {newText ->
+            onValueChange = { newText ->
                 vm.searchText.value = newText
             },
             modifier = Modifier
@@ -169,44 +200,69 @@ private fun PantryList(vm: PantryScreenViewModel, appVm: ApplicationViewModel) {
                 2 -> storedIngredient.name.similarity(searchText) >= .2f
                 else -> storedIngredient.name.similarity(searchText) > .4f
             }
-        }) { ingredient ->
-            PantryRowItem(ingredientName = ingredient.name, ingredientCount = ingredient.count)
+        }) { storedIngredient ->
+            PantryRowItem(vm = vm, storedIngredient = storedIngredient)
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PantryRowItem(
-    ingredientName: String,
-    ingredientCount: Int,
+    vm: PantryScreenViewModel,
+    storedIngredient: StoredIngredient,
 ) {
-    Card(shape = RoundedCornerShape(5.dp), elevation = 16.dp, modifier = Modifier
-        .padding(top = 5.dp, bottom = 10.dp)
-        .fillMaxWidth()
-        .clickable {
-
-        }) {
-        Column(
-            modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth()
-        ) {
-            Row() {
-                Column(modifier = Modifier.padding(end = 10.dp)) {
-                    Icon(Icons.Filled.Fastfood, contentDescription = null)
+    Card(
+        shape = RoundedCornerShape(2.dp), elevation = 16.dp, modifier = Modifier
+            .padding(top = 5.dp, bottom = 10.dp)
+            .fillMaxWidth()
+            .combinedClickable(onClick = {
+                vm.toggleDeletion(storedIngredient)
+            }, onLongClick = {
+                if (!vm.isDeleteInitiated.value) {
+                    vm.enqueueDeletion(storedIngredient)
                 }
-                Column(modifier = Modifier.padding(end = 5.dp)) {
-                    Text(ingredientName, fontSize = 20.sp, fontWeight = FontWeight.Medium)
+                vm.isDeleteInitiated.value = true
+            })
+    ) {
+        Row() {
+            Column(
+                modifier = Modifier
+                    .padding(10.dp)
+            ) {
+                Row() {
+                    Column(modifier = Modifier.padding(end = 10.dp)) {
+                        Icon(Icons.Filled.Fastfood, contentDescription = null)
+                    }
+                    Column(modifier = Modifier.padding(end = 5.dp)) {
+                        Text(
+                            storedIngredient.name,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                    Column() {
+                        Text("x${storedIngredient.count}")
+                    }
                 }
-                Column() {
-                    Text("x${ingredientCount}")
+                Row() {
+                    // TODO: Replace with date added
+                    Text("Expiring in 5 weeks")
                 }
             }
-            Row() {
-                // TODO: Replace with date added
-                Text("Expiring in 5 weeks")
+            if (vm.isDeleteInitiated.value) {
+                Column(
+                    horizontalAlignment = Alignment.End,
+                    modifier = Modifier
+                        .padding(end = 20.dp)
+                        .fillMaxWidth()
+                ) {
+                    Checkbox(checked = vm.ingredientsSelectedForDeletion.value.contains(
+                        storedIngredient
+                    ),
+                        onCheckedChange = { vm.toggleDeletion(storedIngredient) })
+                }
             }
         }
-
     }
 }
