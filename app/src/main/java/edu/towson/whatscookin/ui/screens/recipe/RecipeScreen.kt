@@ -1,32 +1,21 @@
-package edu.towson.whatscookin.ui.screens.recipie
+package edu.towson.whatscookin.ui.screens.recipe
 
-import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import edu.towson.whatscookin.model.Meal
-import edu.towson.whatscookin.network.TheMealDB
 
 //TODO: Display how many ingredients the users has compared to how many they need
 //TODO: Navigate to instruction screen that displays instructions to make meal when clicked.
@@ -36,21 +25,30 @@ import edu.towson.whatscookin.network.TheMealDB
 @Composable
 fun RecipeScreen(vm: RecipeScreenViewModel, onNavigateToRecipeDetails: () -> Unit) {
     if (vm.mealSearchProgress.value.isSearchFinished) {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 128.dp),
-        ) {
-            items(vm.meals.value) { meal ->
-                MealCard(
-                    mealImage = vm.mealImages.value[meal.idMeal],
-                    mealName = meal.name,
-                    onNavigateToRecipeDetails = {
-                        vm.selectedMeal = meal
-                        onNavigateToRecipeDetails()
-                    }
-                )
+        if (vm.meals.value.isNotEmpty())
+        {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                contentPadding = PaddingValues(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 128.dp),
+            ) {
+                items(vm.meals.value) { meal ->
+                    MealCard(
+                        mealImage = vm.mealImages.value[meal.idMeal],
+                        mealName = meal.name,
+                        onNavigateToRecipeDetails = {
+                            vm.selectedMeal = meal
+                            onNavigateToRecipeDetails()
+                        }
+                    )
+                }
             }
+        } else{
+            Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
+                Text(text = "Add ingredients to your pantry!", fontSize = 24.sp)
+            }
+
         }
+
     } else {
         val progress: Float by animateFloatAsState(
             targetValue = vm.mealSearchProgress.value.getProgressFraction(),

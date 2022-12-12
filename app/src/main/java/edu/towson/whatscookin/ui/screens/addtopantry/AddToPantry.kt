@@ -1,43 +1,26 @@
 package edu.towson.whatscookin.ui.screens.addtopantry
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import edu.towson.whatscookin.R
 import edu.towson.whatscookin.ext.similarity
 import edu.towson.whatscookin.model.Ingredient
-import edu.towson.whatscookin.model.StoredIngredient
-import edu.towson.whatscookin.ui.screens.pantry.PantryScreenViewModel
 import edu.towson.whatscookin.ui.shared.compose.SearchBar
 
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun AddToPantry(onAddIngredientsClicked: () -> Unit) {
-    /*
-    val vm = viewModel<AddToPantryViewModel>()
-
+fun AddToPantry(vm: AddToPantryViewModel, onAddIngredientsClicked: () -> Unit) {
     Scaffold(
         bottomBar = {
             BottomAppBar() {
@@ -46,7 +29,9 @@ fun AddToPantry(onAddIngredientsClicked: () -> Unit) {
         },
         floatingActionButton = {
             if (vm.selectedIngredients.value.isNotEmpty()) {
-                FloatingActionButton(onClick = { onAddIngredientsClicked() }) {
+                FloatingActionButton(onClick = {
+                    onAddIngredientsClicked()
+                }) {
                     Icon(
                         imageVector = Icons.Filled.Add,
                         contentDescription = "Add new pantry item",
@@ -71,10 +56,9 @@ fun AddToPantry(onAddIngredientsClicked: () -> Unit) {
         }
     }
 
-     */
+
 }
 
-/*
 @Composable
 fun IngredientList(vm: AddToPantryViewModel) {
     LazyColumn() {
@@ -149,37 +133,3 @@ fun IngredientRow(ingredient: Ingredient, vm: AddToPantryViewModel) {
         }
     }
 }
-
-
-//// temporarily changed for testing, was < ingredientImage: ImageBitmap? >
-//@Composable
-//fun IngredientCard(
-//    ingredientImage: String,
-//    ingredientName: String,
-//    onNavigateToPantry: () -> Unit
-//) {
-//
-//    // User input to remember
-//    val amount = remember { mutableStateOf("") }
-//    val expirationDate = remember { mutableStateOf("") }
-//
-//    // var to hold a new Ingredient to store
-//    var ingredientToAdd = StoredIngredient(0, "", 0, "", "", "")
-//
-//
-//    Card(
-//        shape = RoundedCornerShape(5.dp),
-//        elevation = 1.dp,
-//        backgroundColor = Color.Gray,
-//        modifier = Modifier
-//            .padding(
-//                start = 16.dp,
-//                end = 16.dp,
-//                top = 8.dp,
-//                bottom = 8.dp
-//            )
-//            .fillMaxWidth()
-//    ) {
-//
-//    }
-//}*/

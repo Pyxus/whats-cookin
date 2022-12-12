@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -17,12 +18,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import edu.towson.whatscookin.db.entities.StoredIngredient
+import edu.towson.whatscookin.ui.screens.addtopantry.AddToPantryViewModel
+import edu.towson.whatscookin.ui.shared.viewmodel.ApplicationViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun AddScreen() {
+fun AddAllScreen(
+    vm: AddToPantryViewModel,
+    appVm: ApplicationViewModel,
+    onIngredientsAdded: () -> Unit
+) {
     val count = remember { mutableStateOf("") }
 
     Scaffold(
@@ -31,12 +40,23 @@ fun AddScreen() {
             AddAllTopBar()
         },
         bottomBar = {
-            AddAllButton()
+            AddAllButton(vm = vm, appVm = appVm, onIngredientsAdded)
         }
-    ) {
+    ) { _ ->
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            item {
-                AddScreenCard(count)
+            items(vm.ingredientsToStore.value) { storedIngredient ->
+                AddScreenCard(
+                    storedIngredient,
+                    onCountChange = { count ->
+                        vm.setIngredientToStoreCount(
+                            storedIngredient,
+                            maxOf(count, 1)
+                        )
+                    },
+                    onStorageLocationClicked = { location ->
+                        vm.setIngredientToStoreLocation(storedIngredient, location)
+                    }
+                )
             }
         }
     }
@@ -72,12 +92,18 @@ fun AddAllTopBar() {
 }
 
 @Composable
-fun AddAllButton() {
+fun AddAllButton(
+    vm: AddToPantryViewModel,
+    appVm: ApplicationViewModel,
+    onIngredientsAdded: () -> Unit
+) {
     val checkAdd = remember { mutableStateOf(false) }
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Start
+        horizontalArrangement = Arrangement.End,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
     ) {
         FloatingActionButton(
             onClick = {
@@ -95,7 +121,7 @@ fun AddAllButton() {
             )
         }
 
-        if (checkAdd.value){
+        if (checkAdd.value) {
             AlertDialog(
                 onDismissRequest = { checkAdd.value = false },
                 title = {
@@ -108,6 +134,11 @@ fun AddAllButton() {
                     Button(
                         onClick = {
                             checkAdd.value = false
+                            vm.ingredientsToStore.value.forEach { storedIngredient ->
+                                appVm.addIngredient(storedIngredient)
+                            }
+                            vm.unselectAll()
+                            onIngredientsAdded()
                         },
                         modifier = Modifier.padding(bottom = 8.dp, end = 8.dp)
                     ) {
@@ -130,7 +161,11 @@ fun AddAllButton() {
 }
 
 @Composable
-fun AddScreenCard(count: MutableState<String>) {
+fun AddScreenCard(
+    storedIngredient: StoredIngredient,
+    onCountChange: (Int) -> Unit,
+    onStorageLocationClicked: (String) -> Unit
+) {
     Card(
         shape = RoundedCornerShape(10.dp),
         elevation = 1.dp,
@@ -144,69 +179,83 @@ fun AddScreenCard(count: MutableState<String>) {
             .fillMaxWidth(),
         contentColor = MaterialTheme.colors.primary
     ) {
-        Column {
-            Row {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(2.dp),
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Column(
+                horizontalAlignment = Alignment.Start,
+            ) {
                 Text(
-                    text = "ingredient.name",
-                    modifier = Modifier.padding(16.dp),
+                    text = storedIngredient.name,
+                    modifier = Modifier.padding(top = 6.dp, start = 4.dp),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp
+                    fontSize = 12.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
 
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 16.dp, end = 16.dp),
-                horizontalArrangement = Arrangement.End
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.End
             ) {
-                OutlinedTextField(
-                    value = count.value,
-                    placeholder = {
-                        Text(
-                            text = "Enter Count",
-                            color = MaterialTheme.colors.background,
-                            fontSize = 16.sp
+                Row(modifier = Modifier.padding(start = 2.dp, end = 2.dp)) {
+                    Column(modifier = Modifier.padding(start = 2.dp, end = 2.dp)) {
+                        OutlinedTextField(
+                            value = storedIngredient.count.toString(),
+                            placeholder = {
+                                Text(
+                                    text = "Count",
+                                    color = MaterialTheme.colors.background,
+                                    fontSize = 4.sp
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number
+                            ),
+                            onValueChange = { inputCount: String ->
+                                try {
+                                    onCountChange(inputCount.toInt())
+                                } catch (e: Exception) {
+                                    onCountChange(1)
+                                }
+                            },
+                            colors = TextFieldDefaults.textFieldColors(
+                                backgroundColor = MaterialTheme.colors.primary
+                            ),
+                            singleLine = true,
+                            modifier = Modifier
+                                .height(32.dp)
+                                .width(72.dp),
+                            textStyle = TextStyle.Default.copy(
+                                fontSize = 12.sp,
+                                color = MaterialTheme.colors.background
+                            )
                         )
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number
-                    ),
-                    onValueChange = { inputCount: String ->
-                        count.value = inputCount
-                    },
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = MaterialTheme.colors.primary
-                    ),
-                    singleLine = true,
-                    modifier = Modifier
-                        .height(52.dp)
-                        .width(128.dp),
-                    textStyle = TextStyle.Default.copy(
-                        fontSize = 12.sp,
-                        color = MaterialTheme.colors.background
-                    )
-                )
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 24.dp, end = 16.dp),
-                horizontalArrangement = Arrangement.End
-            ) {
-                StorageLocationDropdown()
+                    }
+                    Column(modifier = Modifier.padding(start = 2.dp, end = 2.dp)) {
+                        StorageLocationDropdown(onStorageLocationClicked = { location ->
+                            onStorageLocationClicked(
+                                location
+                            )
+                        })
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-fun StorageLocationDropdown() {
+fun StorageLocationDropdown(onStorageLocationClicked: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf(0) }
 
-    val items = listOf("Pantry", "Fridge", "Freezer")
+    val items = listOf(StoredIngredient.Pantry, StoredIngredient.Fridge, StoredIngredient.Freezer)
 
     Box(
         modifier = Modifier
@@ -216,13 +265,13 @@ fun StorageLocationDropdown() {
             items[selectedIndex],
             modifier = Modifier
                 .clickable(onClick = { expanded = true })
-                .width(128.dp)
-                .height(44.dp)
+                .width(72.dp)
+                .height(32.dp)
                 .background(
                     MaterialTheme.colors.primary
                 )
                 .padding(top = 8.dp, start = 12.dp),
-            fontSize = 20.sp,
+            fontSize = 12.sp,
             color = MaterialTheme.colors.background
         )
         DropdownMenu(
@@ -238,6 +287,7 @@ fun StorageLocationDropdown() {
                 DropdownMenuItem(onClick = {
                     selectedIndex = index
                     expanded = false
+                    onStorageLocationClicked(s)
                 }) {
                     Text(text = s)
                 }
