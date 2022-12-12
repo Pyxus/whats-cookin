@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.towson.whatscookin.ui.screens.addtopantry.AddToPantryViewModel
@@ -156,10 +157,12 @@ fun AddScreenCard(count: MutableState<String>) {
         Column {
             Row {
                 Text(
-                    text = "ingredient.name",
+                    text = "ingredient.namewawdjlawkdjowi;adoi;awjdioawdioawjdioawdoijawdi9oawjud",
                     modifier = Modifier.padding(16.dp),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp
+                    fontSize = 24.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
 
