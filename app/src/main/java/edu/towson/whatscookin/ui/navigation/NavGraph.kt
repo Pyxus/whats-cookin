@@ -1,6 +1,8 @@
 package edu.towson.whatscookin.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,6 +17,7 @@ import edu.towson.whatscookin.ui.screens.recipedetails.RecipeDetails
 import edu.towson.whatscookin.ui.screens.recipe.RecipeScreen
 import edu.towson.whatscookin.ui.screens.recipe.RecipeScreenViewModel
 import edu.towson.whatscookin.ui.shared.viewmodel.ApplicationViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun NavGraph(
@@ -25,12 +28,23 @@ fun NavGraph(
     val pantryScreenViewModel = viewModel<PantryScreenViewModel>()
     val addToPantryViewModel = viewModel<AddToPantryViewModel>()
 
+    LaunchedEffect(key1 = true){
+        recipeScreenViewModel.viewModelScope.launch {
+            recipeScreenViewModel.updateMeals(applicationViewModel.getIngredients())
+        }
+    }
+
     NavHost(navController = nav, startDestination = Screen.Pantry.route) {
         composable(Screen.Pantry.route) {
             PantryScreen(
                 vm = pantryScreenViewModel,
                 appVm = applicationViewModel,
-                onNavigateToAddPantry = { nav.navigate(Screen.AddToPantry.route) }
+                onNavigateToAddPantry = { nav.navigate(Screen.AddToPantry.route) },
+                onIngredientsDeleted = {
+                    recipeScreenViewModel.viewModelScope.launch {
+                        recipeScreenViewModel.updateMeals(applicationViewModel.getIngredients())
+                    }
+                }
             )
         }
 
@@ -65,6 +79,9 @@ fun NavGraph(
                 vm = addToPantryViewModel,
                 appVm = applicationViewModel,
                 onIngredientsAdded = {
+                    recipeScreenViewModel.viewModelScope.launch {
+                        recipeScreenViewModel.updateMeals(applicationViewModel.getIngredients())
+                    }
                     nav.navigate(Screen.Pantry.route)
                 })
         }

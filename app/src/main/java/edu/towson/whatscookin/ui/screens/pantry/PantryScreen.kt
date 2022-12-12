@@ -29,6 +29,7 @@ fun PantryScreen(
     vm: PantryScreenViewModel,
     appVm: ApplicationViewModel,
     onNavigateToAddPantry: () -> Unit,
+    onIngredientsDeleted: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -49,7 +50,9 @@ fun PantryScreen(
                         vm.ingredientsSelectedForDeletion.value.forEach { storedIngredient ->
                             appVm.deleteIngredient(storedIngredient)
                             vm.clearDeleteQueue()
+                            onIngredientsDeleted()
                         }
+
 
                     }
                     else{

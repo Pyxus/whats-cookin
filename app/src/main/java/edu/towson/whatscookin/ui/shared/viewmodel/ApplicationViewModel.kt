@@ -48,4 +48,8 @@ class ApplicationViewModel(app: Application) : AndroidViewModel(app) {
             _ingredients.value = db.ingredientDao().getIngredients()
         }
     }
+
+    suspend fun getIngredients(): List<StoredIngredient>{
+        return db.ingredientDao().getIngredients()
+    }
 }

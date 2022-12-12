@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 //TODO: Display how many ingredients the users has compared to how many they need
 //TODO: Navigate to instruction screen that displays instructions to make meal when clicked.
@@ -24,21 +25,30 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun RecipeScreen(vm: RecipeScreenViewModel, onNavigateToRecipeDetails: () -> Unit) {
     if (vm.mealSearchProgress.value.isSearchFinished) {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 128.dp),
-        ) {
-            items(vm.meals.value) { meal ->
-                MealCard(
-                    mealImage = vm.mealImages.value[meal.idMeal],
-                    mealName = meal.name,
-                    onNavigateToRecipeDetails = {
-                        vm.selectedMeal = meal
-                        onNavigateToRecipeDetails()
-                    }
-                )
+        if (vm.meals.value.isNotEmpty())
+        {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                contentPadding = PaddingValues(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 128.dp),
+            ) {
+                items(vm.meals.value) { meal ->
+                    MealCard(
+                        mealImage = vm.mealImages.value[meal.idMeal],
+                        mealName = meal.name,
+                        onNavigateToRecipeDetails = {
+                            vm.selectedMeal = meal
+                            onNavigateToRecipeDetails()
+                        }
+                    )
+                }
             }
+        } else{
+            Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
+                Text(text = "Add ingredients to your pantry!", fontSize = 24.sp)
+            }
+
         }
+
     } else {
         val progress: Float by animateFloatAsState(
             targetValue = vm.mealSearchProgress.value.getProgressFraction(),

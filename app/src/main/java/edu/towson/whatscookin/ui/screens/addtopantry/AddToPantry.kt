@@ -1,5 +1,6 @@
 package edu.towson.whatscookin.ui.screens.addtopantry
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,6 +18,7 @@ import edu.towson.whatscookin.model.Ingredient
 import edu.towson.whatscookin.ui.shared.compose.SearchBar
 
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun AddToPantry(vm: AddToPantryViewModel, onAddIngredientsClicked: () -> Unit) {
     Scaffold(
@@ -131,37 +133,3 @@ fun IngredientRow(ingredient: Ingredient, vm: AddToPantryViewModel) {
         }
     }
 }
-
-
-//// temporarily changed for testing, was < ingredientImage: ImageBitmap? >
-//@Composable
-//fun IngredientCard(
-//    ingredientImage: String,
-//    ingredientName: String,
-//    onNavigateToPantry: () -> Unit
-//) {
-//
-//    // User input to remember
-//    val amount = remember { mutableStateOf("") }
-//    val expirationDate = remember { mutableStateOf("") }
-//
-//    // var to hold a new Ingredient to store
-//    var ingredientToAdd = StoredIngredient(0, "", 0, "", "", "")
-//
-//
-//    Card(
-//        shape = RoundedCornerShape(5.dp),
-//        elevation = 1.dp,
-//        backgroundColor = Color.Gray,
-//        modifier = Modifier
-//            .padding(
-//                start = 16.dp,
-//                end = 16.dp,
-//                top = 8.dp,
-//                bottom = 8.dp
-//            )
-//            .fillMaxWidth()
-//    ) {
-//
-//    }
-//}

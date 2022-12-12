@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import edu.towson.whatscookin.db.entities.StoredIngredient
 import edu.towson.whatscookin.model.Ingredient
 import edu.towson.whatscookin.model.Meal
 import edu.towson.whatscookin.model.MealSearchProgress
@@ -31,24 +32,9 @@ class RecipeScreenViewModel : ViewModel() {
     private val _mealSearchProgress = mutableStateOf(MealSearchProgress())
     val mealSearchProgress: State<MealSearchProgress> = _mealSearchProgress
 
-    //private val _selectedMeal = mutableStateOf<Meal?>(null)
     var selectedMeal: Meal? = null
 
-    init {
-        //TODO: THIS IS JUST FOR TESTING!!!!
-        updateMeals()
-    }
-
-    fun updateMeals() {
-        //TODO: Replace with real ingredients from database
-        val ingredients = listOf(
-            Ingredient("Egg", 0,null, ""),
-            Ingredient("Milk",0, null, ""),
-            Ingredient("Butter", 0,null, ""),
-            Ingredient("Bacon", 0, null, ""),
-            Ingredient("Plain Flour", 0,null, ""),
-        )
-
+    fun updateMeals(ingredients: List<StoredIngredient>) {
         _mealSearchProgress.value =
             MealSearchProgress(totalIngredientCount = ingredients.size, isSearchFinished = false)
 
@@ -57,15 +43,22 @@ class RecipeScreenViewModel : ViewModel() {
                 val client = OkHttpClient()
                 val potentialMeals = mutableMapOf<Int, PotentialMeal>()
                 var checkedIngredientCount = 0
+                val maxMealSearch = 10
+
 
                 ingredients.forEach { ingredient ->
-                    _mealDb.searchByIngredient(ingredient.name).forEach { meal ->
+                    var checkedMeals = 0
+                    for(meal in _mealDb.searchByIngredient(ingredient.name)){
+                        if (checkedMeals > maxMealSearch){
+                            break
+                        }
                         val pm = potentialMeals[meal.idMeal]
                         if (pm != null) {
                             pm.possessedIngredientCount++;
                         } else {
                             potentialMeals[meal.idMeal] = PotentialMeal(meal)
                         }
+                        checkedMeals++
                     }
 
                     _mealSearchProgress.value = MealSearchProgress(
