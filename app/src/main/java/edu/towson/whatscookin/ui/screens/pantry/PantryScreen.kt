@@ -13,11 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import edu.towson.whatscookin.R
 import edu.towson.whatscookin.db.entities.StoredIngredient
 import edu.towson.whatscookin.ext.similarity
 import edu.towson.whatscookin.ui.shared.compose.SearchBar
@@ -39,7 +41,7 @@ fun PantryScreen(
         },
         bottomBar = {
             BottomAppBar() {
-                // Intentionally empty. Only way I could get the FAB to move up
+                // Intentionally empty.
             }
         },
         floatingActionButton = {
@@ -94,7 +96,7 @@ private fun TopBar() {
             modifier = Modifier.padding(10.dp)
         ) {
             Column() {
-                Text(text = "Pantry", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+                Text(text = stringResource(R.string.pantry), fontWeight = FontWeight.Bold, fontSize = 24.sp)
             }
         }
     }
@@ -110,7 +112,7 @@ private fun Header(
     ) {
         SearchBar(
             value = vm.searchText.value,
-            placeholderText = "Search your pantry",
+            placeholderText = stringResource(R.string.enter_to_search),
             onValueChange = { newText ->
                 vm.searchText.value = newText
             },
@@ -123,28 +125,28 @@ private fun Header(
         contentPadding = PaddingValues(horizontal = 19.dp)
     ) {
         item {
-            StorageFilterItem(text = "All",
+            StorageFilterItem(text = stringResource(R.string.all_tab),
                 isSelected = vm.selectedFilter == PantryScreenViewModel.StorageFilter.ALL,
                 count = appVm.ingredients.value.size,
                 onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.ALL })
         }
 
         item {
-            StorageFilterItem(text = "Pantry",
+            StorageFilterItem(text = stringResource(R.string.pantry_tab),
                 isSelected = vm.selectedFilter == PantryScreenViewModel.StorageFilter.PANTRY,
                 count = appVm.ingredients.value.count { ingredient -> ingredient.storageLocation == StoredIngredient.Pantry },
                 onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.PANTRY })
         }
 
         item {
-            StorageFilterItem(text = "Fridge",
+            StorageFilterItem(text = stringResource(R.string.fridge_tab),
                 isSelected = vm.selectedFilter == PantryScreenViewModel.StorageFilter.FRIDGE,
                 count = appVm.ingredients.value.count { ingredient -> ingredient.storageLocation == StoredIngredient.Fridge },
                 onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.FRIDGE })
         }
 
         item {
-            StorageFilterItem(text = "Freezer",
+            StorageFilterItem(text = stringResource(R.string.freezer_tab),
                 isSelected = vm.selectedFilter == PantryScreenViewModel.StorageFilter.FREEZER,
                 count = appVm.ingredients.value.count { ingredient -> ingredient.storageLocation == StoredIngredient.Freezer },
                 onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.FREEZER })
@@ -167,7 +169,7 @@ private fun StorageFilterItem(
                 ),
                 onClick = { onClick() }) {
                 Text(
-                    text = "$text ($count)", color = if (isSelected) Color.White else Color.Black
+                    text = "$text ($count)", color = if (isSelected) MaterialTheme.colors.primaryVariant else MaterialTheme.colors.secondaryVariant
                 )
             }
         }

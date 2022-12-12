@@ -14,8 +14,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import edu.towson.whatscookin.R
 import edu.towson.whatscookin.model.Meal
 
 @Composable
@@ -49,7 +51,7 @@ fun RecipeScreen(vm: RecipeScreenViewModel, onNavigateToRecipeDetails: () -> Uni
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxSize()
             ) {
-                Text(text = "Add ingredients to your pantry!", fontSize = 24.sp)
+                Text(text = stringResource(R.string.recipe_no_ingredients), fontSize = 24.sp)
             }
 
         }
@@ -68,7 +70,7 @@ fun RecipeScreen(vm: RecipeScreenViewModel, onNavigateToRecipeDetails: () -> Uni
                 LinearProgressIndicator(progress = progress)
             }
             Row() {
-                Text(text = "Figuring out what's on the menu!")
+                Text(text = stringResource(R.string.recipe_loading))
             }
         }
     }

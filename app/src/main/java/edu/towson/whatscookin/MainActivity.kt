@@ -35,9 +35,7 @@ class MainActivity : ComponentActivity() {
 //TODO: Implement tools screen. Should just be a list of simple tools: Unit converter, timer, etc.
 //      Don't put too much time into them.
 
-
 // 5pt Requirements
-//TODO: Custom app theme (not 100% sure what this means but we could tweak the Theme.kt file)
 //TODO: Notifications are a requirement. 2 ideas: food expiring notifications and timer notifications.
 
 // Rubric Requirements

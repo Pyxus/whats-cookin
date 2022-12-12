@@ -3,7 +3,19 @@
     <string name="click_to_add">Click to Select</string>
     <string name="amount_placeholder">0</string>
     <string name="date_placeholder">YYYY-MM-DD</string>
-    <string name="enter_amount">Enter Amount in kg:</string>
-    <string name="enter_exp_date">Enter Expiration Date (YYY-MM-DD) :</string>
-    <string name="enter_count">Enter Count</string>
+    <string name="enter_to_search">Type ingredient name to search</string>
+    <string name="all_tab">All</string>
+    <string name="pantry_tab">Pantry</string>
+    <string name="fridge_tab">Fridge</string>
+    <string name="freezer_tab">Freezer</string>
+    <string name="add_to_storage">Add to Storage</string>
+    <string name="add_to_storage_instruct">(Choose ingredient count and location for each)</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="count">Count</string>
+    <string name="pantry">Pantry</string>
+    <string name="recipe_no_ingredients">Add ingredients to your pantry!</string>
+    <string name="recipe_loading">Figuring out what\'s on the menu!</string>
+
+
 </resources>
