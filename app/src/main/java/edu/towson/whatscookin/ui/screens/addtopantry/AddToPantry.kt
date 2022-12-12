@@ -64,33 +64,49 @@ fun AddToPantry(vm: AddToPantryViewModel, onAddIngredientsClicked: () -> Unit) {
 
 @Composable
 fun IngredientList(vm: AddToPantryViewModel) {
-    LazyColumn() {
-        val searchText = vm.searchText.value
+    if (vm.allIngredients.value.isNotEmpty()){
+        LazyColumn() {
+            val searchText = vm.searchText.value
 
-        if (searchText.isEmpty()) {
-            items(vm.allIngredients.value) { ingredient ->
-                IngredientRow(ingredient = ingredient, vm = vm)
-            }
-        } else {
-            val filteredIngredients = vm.allIngredients.value.filter { ingredient ->
-                // The Sorensen-Dice algorithm used in similarity() is based off a statistic
-                // So the more input there is, the more accurate it is.
-                when (searchText.length) {
-                    1 -> ingredient.name.startsWith(searchText, true)
-                    2 -> ingredient.name.similarity(searchText) >= .2f
-                    else -> ingredient.name.similarity(searchText) > .4f
+            if (searchText.isEmpty()) {
+                items(vm.allIngredients.value) { ingredient ->
+                    IngredientRow(ingredient = ingredient, vm = vm)
+                }
+            } else {
+                val filteredIngredients = vm.allIngredients.value.filter { ingredient ->
+                    // The Sorensen-Dice algorithm used in similarity() is based off a statistic
+                    // So the more input there is, the more accurate it is.
+                    when (searchText.length) {
+                        1 -> ingredient.name.startsWith(searchText, true)
+                        2 -> ingredient.name.similarity(searchText) >= .2f
+                        else -> ingredient.name.similarity(searchText) > .4f
+                    }
+                }
+
+                items(filteredIngredients.sortedByDescending { ingredient ->
+                    ingredient.name.similarity(
+                        searchText
+                    )
+                }) { ingredient ->
+                    IngredientRow(ingredient = ingredient, vm = vm)
                 }
             }
-
-            items(filteredIngredients.sortedByDescending { ingredient ->
-                ingredient.name.similarity(
-                    searchText
-                )
-            }) { ingredient ->
-                IngredientRow(ingredient = ingredient, vm = vm)
+        }
+    } else{
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Row {
+                CircularProgressIndicator()
+            }
+            Row() {
+                Text(text = "Downloading ingredient list...")
             }
         }
     }
+    
 }
 
 @Composable

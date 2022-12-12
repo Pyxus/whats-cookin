@@ -97,7 +97,7 @@ fun AddAllTopBar() {
 fun AddAllButton(
     vm: AddToPantryViewModel,
     appVm: ApplicationViewModel,
-    onIngredientsAdded: () -> Unit
+    onAddIngredientsClicked: () -> Unit
 ) {
     val checkAdd = remember { mutableStateOf(false) }
 
@@ -136,11 +136,7 @@ fun AddAllButton(
                     Button(
                         onClick = {
                             checkAdd.value = false
-                            vm.ingredientsToStore.value.forEach { storedIngredient ->
-                                appVm.addIngredient(storedIngredient)
-                            }
-                            vm.unselectAll()
-                            onIngredientsAdded()
+                            onAddIngredientsClicked()
                         },
                         modifier = Modifier.padding(bottom = 8.dp, end = 8.dp)
                     ) {
@@ -217,7 +213,7 @@ fun AddScreenCard(
                                 )
                             },
                             keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Number
+                                keyboardType = KeyboardType.Decimal
                             ),
                             onValueChange = { inputCount: String ->
                                 try {

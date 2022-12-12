@@ -41,14 +41,13 @@ class AddToPantryViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun unselectAll(){
+    fun unselectAll() {
         _selectedIngredients.value = setOf()
         _ingredientsToStore.value = listOf()
     }
 
     fun prepSelectedIngredientsStorage() {
         _ingredientsToStore.value = _selectedIngredients.value.map { id ->
-            Log.d("Test", id.toString())
             val ingredient = _allIngredients.value.find { ing -> ing.id == id }
             StoredIngredient(
                 name = ingredient!!.name,
@@ -59,35 +58,35 @@ class AddToPantryViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun setIngredientToStoreCount(storedIngredient: StoredIngredient, count: Int) {
-        _ingredientsToStore.value = _ingredientsToStore.value.filter { si ->
-            si.id != storedIngredient.id
+        _ingredientsToStore.value = _ingredientsToStore.value.map { si ->
+            if (si.id == storedIngredient.id) {
+                StoredIngredient(
+                    id = storedIngredient.id,
+                    dateAdded = storedIngredient.dateAdded,
+                    name = storedIngredient.name,
+                    storageLocation = storedIngredient.storageLocation,
+                    count = count
+                )
+            } else {
+                si
+            }
         }
-
-        _ingredientsToStore.value = _ingredientsToStore.value + listOf(
-            StoredIngredient(
-                id = storedIngredient.id,
-                dateAdded = storedIngredient.dateAdded,
-                name = storedIngredient.name,
-                storageLocation = storedIngredient.storageLocation,
-                count = count
-            )
-        )
     }
 
     fun setIngredientToStoreLocation(storedIngredient: StoredIngredient, location: String) {
-        _ingredientsToStore.value = _ingredientsToStore.value.filter { si ->
-            si.id != storedIngredient.id
+        _ingredientsToStore.value = _ingredientsToStore.value.map { si ->
+            if (si.id == storedIngredient.id) {
+                StoredIngredient(
+                    id = storedIngredient.id,
+                    dateAdded = storedIngredient.dateAdded,
+                    name = storedIngredient.name,
+                    storageLocation = location,
+                    count = storedIngredient.count
+                )
+            } else {
+                si
+            }
         }
-
-        _ingredientsToStore.value = _ingredientsToStore.value + listOf(
-            StoredIngredient(
-                id = storedIngredient.id,
-                dateAdded = storedIngredient.dateAdded,
-                name = storedIngredient.name,
-                storageLocation = location,
-                count = storedIngredient.count
-            )
-        )
     }
 
     fun toggleSelection(id: Int) {

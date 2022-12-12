@@ -31,7 +31,7 @@ fun PantryScreen(
     vm: PantryScreenViewModel,
     appVm: ApplicationViewModel,
     onNavigateToAddPantry: () -> Unit,
-    onIngredientsDeleted: () -> Unit,
+    onDeleteClicked: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -49,13 +49,7 @@ fun PantryScreen(
                 backgroundColor = MaterialTheme.colors.secondary,
                 onClick = {
                     if (vm.isDeleteInitiated.value) {
-                        vm.ingredientsSelectedForDeletion.value.forEach { storedIngredient ->
-                            appVm.deleteIngredient(storedIngredient)
-                            vm.clearDeleteQueue()
-                            onIngredientsDeleted()
-                        }
-
-
+                        onDeleteClicked()
                     }
                     else{
                         onNavigateToAddPantry()
