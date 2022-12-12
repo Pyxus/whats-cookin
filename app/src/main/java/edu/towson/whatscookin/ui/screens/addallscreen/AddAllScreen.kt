@@ -52,7 +52,7 @@ fun AddAllScreen(
                     onCountChange = { count ->
                         vm.setIngredientToStoreCount(
                             storedIngredient,
-                            maxOf(count, 1)
+                            count
                         )
                     },
                     onStorageLocationClicked = { location ->
@@ -220,7 +220,7 @@ fun AddScreenCard(
                                 try {
                                     onCountChange(inputCount.toInt())
                                 } catch (e: Exception) {
-                                    onCountChange(1)
+                                    onCountChange(0)
                                 }
                             },
                             colors = TextFieldDefaults.textFieldColors(
