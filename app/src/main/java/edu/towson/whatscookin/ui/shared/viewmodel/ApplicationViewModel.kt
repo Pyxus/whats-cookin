@@ -12,6 +12,7 @@ import edu.towson.whatscookin.db.AppDatabase
 import edu.towson.whatscookin.db.IngredientDao
 import edu.towson.whatscookin.db.entities.StoredIngredient
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -34,5 +35,10 @@ class ApplicationViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-
+    fun addIngredient(ingredient: StoredIngredient){
+        viewModelScope.launch {
+            db.ingredientDao().addIngredient(ingredient)
+            _ingredients.value = db.ingredientDao().getIngredients()
+        }
+    }
 }

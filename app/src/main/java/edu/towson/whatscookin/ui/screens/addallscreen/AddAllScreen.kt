@@ -23,10 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.towson.whatscookin.db.entities.StoredIngredient
 import edu.towson.whatscookin.ui.screens.addtopantry.AddToPantryViewModel
+import edu.towson.whatscookin.ui.shared.viewmodel.ApplicationViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun AddAllScreen(vm: AddToPantryViewModel) {
+fun AddAllScreen(vm: AddToPantryViewModel, appVm: ApplicationViewModel) {
     val count = remember { mutableStateOf("") }
 
     Scaffold(
@@ -35,24 +36,17 @@ fun AddAllScreen(vm: AddToPantryViewModel) {
             AddAllTopBar()
         },
         bottomBar = {
-            AddAllButton()
+            AddAllButton(vm = vm, appVm = appVm)
         }
     ) { _ ->
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(vm.ingredientsToStore.value) { storedIngredient ->
-                /*
-                Notes about this setup:
-                1. I saw you were using a remember to track the count. Used storedIngredient.count now.
-                2. To update the count do vm.setIngredientToStoreCount(storedIngredient, NEW_COUNT_VALUE)
-                3. To update storage location do vm.setIngredientToStoreLocation(storedIngredient, ...)
-                    For the ...; it takes a string but make sure to only used StoredIngredient.Pantry | StoredIngredient.Fridge | etc.
-                 */
                 AddScreenCard(
                     storedIngredient,
                     onCountChange = { count ->
                         vm.setIngredientToStoreCount(
                             storedIngredient,
-                            count
+                            maxOf(count, 1)
                         )
                     })
             }
@@ -90,7 +84,7 @@ fun AddAllTopBar() {
 }
 
 @Composable
-fun AddAllButton() {
+fun AddAllButton(vm: AddToPantryViewModel, appVm: ApplicationViewModel) {
     val checkAdd = remember { mutableStateOf(false) }
 
     Row(
@@ -128,6 +122,9 @@ fun AddAllButton() {
                     Button(
                         onClick = {
                             checkAdd.value = false
+                            vm.ingredientsToStore.value.forEach { storedIngredient ->
+                                appVm.addIngredient(storedIngredient)
+                            }
                         },
                         modifier = Modifier.padding(bottom = 8.dp, end = 8.dp)
                     ) {
@@ -164,7 +161,6 @@ fun AddScreenCard(storedIngredient: StoredIngredient, onCountChange: (Int) -> Un
             .fillMaxWidth(),
         contentColor = MaterialTheme.colors.primary
     ) {
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()

@@ -60,7 +60,7 @@ fun NavGraph(
         }
 
         composable(Screen.AddAllScreen.route) {
-            AddAllScreen(addToPantryViewModel)
+            AddAllScreen(vm = addToPantryViewModel, appVm = applicationViewModel)
         }
 
     }
