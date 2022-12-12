@@ -9,4 +9,4 @@ Ezekiel Halley, Katie Durkin, John Appel
 # Pantry screen, by default, will show you all ingredients that have been added (will be empty upon first use)
 # If you want to search through the ingredients for something, you can click on the search bar
 # As you type, ingredients that don't match will be filtered out
-# We were able to research method that would filter out
+# We were able to research a method that would allow ingredients to show up even if the user misspelled it (e.g. tomo)

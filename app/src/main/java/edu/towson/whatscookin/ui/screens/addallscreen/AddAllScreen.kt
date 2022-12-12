@@ -76,7 +76,7 @@ fun AddAllTopBar() {
             Text(
                 text = stringResource(R.string.add_to_storage),
                 fontSize = 24.sp,
-                color = MaterialTheme.colors.background,
+                color = Color.White,
                 fontWeight = FontWeight.ExtraBold
             )
         }
@@ -86,7 +86,7 @@ fun AddAllTopBar() {
         ) {
             Text(
                 text = stringResource(R.string.add_to_storage_instruct),
-                color = MaterialTheme.colors.background,
+                color = Color.White,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
         }
