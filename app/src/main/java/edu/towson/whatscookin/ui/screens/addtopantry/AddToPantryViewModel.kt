@@ -6,8 +6,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import edu.towson.whatscookin.data.InterfaceStoredIngredientsDatabase
-import edu.towson.whatscookin.data.implementation.StoredIngredientsDatabaseRepo
 import edu.towson.whatscookin.model.Ingredient
 import edu.towson.whatscookin.model.StoredIngredient
 import edu.towson.whatscookin.network.TheMealDB
@@ -16,7 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AddToPantryViewModel(app: Application) : AndroidViewModel(app) {
-
+    /*
     private val theMealDB = TheMealDB()
 
     private val _allIngredients: MutableState<List<Ingredient>> = mutableStateOf(listOf())
@@ -68,4 +66,5 @@ class AddToPantryViewModel(app: Application) : AndroidViewModel(app) {
             _selectedIngredients.value = _selectedIngredients.value + setOf(id)
         }
     }
+*/
 }

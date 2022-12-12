@@ -35,6 +35,7 @@ import edu.towson.whatscookin.ui.shared.compose.SearchBar
 
 @Composable
 fun AddToPantry(onAddIngredientsClicked: () -> Unit) {
+    /*
     val vm = viewModel<AddToPantryViewModel>()
 
     Scaffold(
@@ -69,8 +70,11 @@ fun AddToPantry(onAddIngredientsClicked: () -> Unit) {
             }
         }
     }
+
+     */
 }
 
+/*
 @Composable
 fun IngredientList(vm: AddToPantryViewModel) {
     LazyColumn() {
@@ -178,4 +182,4 @@ fun IngredientRow(ingredient: Ingredient, vm: AddToPantryViewModel) {
 //    ) {
 //
 //    }
-//}
+//}*/
