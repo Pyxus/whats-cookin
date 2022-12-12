@@ -14,12 +14,10 @@ import edu.towson.whatscookin.ui.MainScreen
 import edu.towson.whatscookin.ui.theme.WhatsCookinTheme
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             WhatsCookinTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
@@ -30,20 +28,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-// Specific Task
-//TODO: Implement tools screen. Should just be a list of simple tools: Unit converter, timer, etc.
-//      Don't put too much time into them.
-
-// 5pt Requirements
-//TODO: Notifications are a requirement. 2 ideas: food expiring notifications and timer notifications.
-
-// Rubric Requirements
-//TODO: App is responsive (basically multithreading used where appropriate)
-//TODO: UI is clean and effective (pad well, color well, etc.)
-//TODO: App is easy to use
-//TODO: App never crashes
-//TODO: Navigation is effective (pop nav stack when needed)
-//TODO: Code is clean and can be read quickly. Comments explain important parts.
-//TODO: No commented-out code
-//TODO: Readme explains the project clearly
