@@ -1,6 +1,7 @@
 package edu.towson.whatscookin.ui.screens.addtopantry
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -42,9 +43,10 @@ class AddToPantryViewModel(app: Application) : AndroidViewModel(app) {
 
     fun prepSelectedIngredientsStorage() {
         _ingredientsToStore.value = _selectedIngredients.value.map { id ->
-            val ingredient = _allIngredients.value[id]
+            Log.d("Test", id.toString())
+            val ingredient = _allIngredients.value.find { ing -> ing.id == id }
             StoredIngredient(
-                name = ingredient.name,
+                name = ingredient!!.name,
                 count = 1,
                 storageLocation = StoredIngredient.Pantry
             )
@@ -53,7 +55,7 @@ class AddToPantryViewModel(app: Application) : AndroidViewModel(app) {
 
     fun setIngredientToStoreCount(storedIngredient: StoredIngredient, count: Int) {
         _ingredientsToStore.value = _ingredientsToStore.value.filter { si ->
-            si.id == storedIngredient.id
+            si.id != storedIngredient.id
         }
 
         _ingredientsToStore.value = _ingredientsToStore.value + listOf(
@@ -69,7 +71,7 @@ class AddToPantryViewModel(app: Application) : AndroidViewModel(app) {
 
     fun setIngredientToStoreLocation(storedIngredient: StoredIngredient, location: String) {
         _ingredientsToStore.value = _ingredientsToStore.value.filter { si ->
-            si.id == storedIngredient.id
+            si.id != storedIngredient.id
         }
 
         _ingredientsToStore.value = _ingredientsToStore.value + listOf(
