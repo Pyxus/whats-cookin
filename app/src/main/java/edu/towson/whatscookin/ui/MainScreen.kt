@@ -70,9 +70,7 @@ fun BottomBar(
             selected = currentDestination?.route == Screen.Pantry.route,
             label = { Text("Pantry") },
             onClick = {
-                nav.navigate(Screen.Pantry.route) {
-                    popUpTo(Screen.Pantry.route)
-                }
+                nav.clearBackStack(Screen.Pantry.route)
             },
             icon = { Icon(Icons.Filled.Kitchen, contentDescription = "Navigate to pantry") }
         )
