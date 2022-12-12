@@ -8,7 +8,7 @@ Ezekiel Halley, Katie Durkin, John Appel
 
 # Resources Used
 
-- [Dice's Coefficient Algorithm](https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Dice's_coefficient)
+- [Dice's Coefficient Algorithm](https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Dice's_coefficient): Used for search bar functionality
 
 # Program Usage
 
