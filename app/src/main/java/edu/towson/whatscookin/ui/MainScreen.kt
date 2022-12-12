@@ -87,16 +87,5 @@ fun BottomBar(
             },
             icon = { Icon(Icons.Filled.MenuBook, contentDescription = "Navigate to recipes") }
         )
-
-        BottomNavigationItem(
-            selected = currentDestination?.route == Screen.Tools.route,
-            label = { Text("Tools") },
-            onClick = {
-                nav.navigate(Screen.Tools.route) {
-                    popUpTo(Screen.Tools.route){inclusive = true}
-                }
-            },
-            icon = { Icon(Icons.Filled.Kitchen, contentDescription = "Navigate to tools") }
-        )
     }
 }
