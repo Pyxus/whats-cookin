@@ -1,4 +1,4 @@
-package edu.towson.whatscookin.ui.screens.recipie
+package edu.towson.whatscookin.ui.screens.recipe
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

@@ -1,4 +1,4 @@
-package edu.towson.whatscookin.ui.screens.recipie
+package edu.towson.whatscookin.ui.screens.recipe
 
 import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState

@@ -13,8 +13,8 @@ import edu.towson.whatscookin.ui.screens.addtopantry.AddToPantry
 import edu.towson.whatscookin.ui.screens.pantry.PantryScreen
 import edu.towson.whatscookin.ui.screens.pantry.PantryScreenViewModel
 import edu.towson.whatscookin.ui.screens.recipedetails.RecipeDetails
-import edu.towson.whatscookin.ui.screens.recipie.RecipeScreen
-import edu.towson.whatscookin.ui.screens.recipie.RecipeScreenViewModel
+import edu.towson.whatscookin.ui.screens.recipe.RecipeScreen
+import edu.towson.whatscookin.ui.screens.recipe.RecipeScreenViewModel
 import edu.towson.whatscookin.ui.shared.viewmodel.ApplicationViewModel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch

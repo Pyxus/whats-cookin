@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.towson.whatscookin.ui.navigation.Screen
-import edu.towson.whatscookin.ui.screens.recipie.RecipeScreenViewModel
+import edu.towson.whatscookin.ui.screens.recipe.RecipeScreenViewModel
 
 @Composable
 fun RecipeDetails(vm: RecipeScreenViewModel) {
