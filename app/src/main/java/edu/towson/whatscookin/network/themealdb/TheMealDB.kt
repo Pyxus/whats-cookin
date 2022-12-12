@@ -107,6 +107,7 @@ class TheMealDB {
         }
     }
 
+    // Helper function to convert the meal schema into the more useful Meal type
     private fun mealSchemaToMeal(mealSchema: MealSchema): Meal{
         return Meal(
             idMeal = mealSchema.idMeal,
@@ -124,6 +125,7 @@ class TheMealDB {
         )
     }
 
+    // Helper function to fetch meals from response body.
     private fun getMealsFromResponse(responseBody: ResponseBody?): List<Meal> {
         return if (responseBody != null) {
             val jsonString = responseBody.string()

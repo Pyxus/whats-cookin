@@ -35,6 +35,8 @@ class ApplicationViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    // Takes a list of ingredients and inserts them into the database
+    // An optional onFinished can be supplied to trigger something when this is done
     fun addIngredients(ingredients: List<StoredIngredient>, onFinished: () -> Unit = {}){
         viewModelScope.launch {
             withContext(Dispatchers.IO){
@@ -47,6 +49,8 @@ class ApplicationViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    // Takes a list of ingredients and removes them from the database
+    // An optional onFinished can be supplied to trigger something when this is done
     fun deleteIngredients(ingredients: List<StoredIngredient>, onFinished: () -> Unit = {}){
         viewModelScope.launch {
             withContext(Dispatchers.IO){
@@ -59,6 +63,7 @@ class ApplicationViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    // Returns a list of all ingredients stored in the database
     suspend fun getIngredients(): List<StoredIngredient>{
         return db.ingredientDao().getIngredients()
     }
