@@ -22,6 +22,7 @@ import edu.towson.whatscookin.db.entities.StoredIngredient
 import edu.towson.whatscookin.ext.similarity
 import edu.towson.whatscookin.ui.shared.compose.SearchBar
 import edu.towson.whatscookin.ui.shared.viewmodel.ApplicationViewModel
+import java.text.SimpleDateFormat
 
 @Composable
 fun PantryScreen(
@@ -246,8 +247,8 @@ fun PantryRowItem(
                     }
                 }
                 Row() {
-                    // TODO: Replace with date added
-                    Text("Expiring in 5 weeks")
+                    val dateFormat = SimpleDateFormat("MM-dd-yyyy")
+                    Text("Added ${dateFormat.format(storedIngredient.dateAdded)}")
                 }
             }
             if (vm.isDeleteInitiated.value) {
