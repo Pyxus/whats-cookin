@@ -39,7 +39,7 @@ fun PantryScreen(
         },
         bottomBar = {
             BottomAppBar() {
-                // Intentionally empty. Only way I could get the FAB to move up
+                // Intentionally empty.
             }
         },
         floatingActionButton = {

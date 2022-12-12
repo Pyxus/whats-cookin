@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import edu.towson.whatscookin.ext.similarity
 import edu.towson.whatscookin.model.Ingredient
@@ -127,7 +128,7 @@ fun IngredientRow(ingredient: Ingredient, vm: AddToPantryViewModel) {
             ) {
                 Text(
                     text = ingredient.name,
-                    color = MaterialTheme.colors.background
+                    color = Color.White
                 )
             }
         }
