@@ -13,7 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import edu.towson.whatscookin.R
 import edu.towson.whatscookin.ext.similarity
 import edu.towson.whatscookin.model.Ingredient
 import edu.towson.whatscookin.ui.shared.compose.SearchBar
@@ -25,7 +27,7 @@ fun AddToPantry(vm: AddToPantryViewModel, onAddIngredientsClicked: () -> Unit) {
     Scaffold(
         bottomBar = {
             BottomAppBar() {
-                // Intentionally empty. Only way I could get the FAB to move up
+                // Intentionally empty. To move FAB up
             }
         },
         floatingActionButton = {
@@ -44,7 +46,7 @@ fun AddToPantry(vm: AddToPantryViewModel, onAddIngredientsClicked: () -> Unit) {
             Row() {
                 SearchBar(
                     modifier = Modifier.fillMaxWidth(),
-                    placeholderText = "Type ingredient name to search",
+                    placeholderText = stringResource(R.string.enter_to_search),
                     value = vm.searchText.value,
                     onValueChange = { text ->
                         vm.searchText.value = text
@@ -71,7 +73,7 @@ fun IngredientList(vm: AddToPantryViewModel) {
             }
         } else {
             val filteredIngredients = vm.allIngredients.value.filter { ingredient ->
-                // The Sorensen-Dice algorithm used in similairty() is based off a statistic
+                // The Sorensen-Dice algorithm used in similarity() is based off a statistic
                 // So the more input there is, the more accurate it is.
                 when (searchText.length) {
                     1 -> ingredient.name.startsWith(searchText, true)

@@ -15,12 +15,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import edu.towson.whatscookin.R
 import edu.towson.whatscookin.db.entities.StoredIngredient
 import edu.towson.whatscookin.ui.screens.addtopantry.AddToPantryViewModel
 import edu.towson.whatscookin.ui.shared.viewmodel.ApplicationViewModel
@@ -72,7 +74,7 @@ fun AddAllTopBar() {
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Add to Storage",
+                text = stringResource(R.string.add_to_storage),
                 fontSize = 24.sp,
                 color = MaterialTheme.colors.background,
                 fontWeight = FontWeight.ExtraBold
@@ -83,7 +85,7 @@ fun AddAllTopBar() {
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "(Choose ingredient count and location for each)",
+                text = stringResource(R.string.add_to_storage_instruct),
                 color = MaterialTheme.colors.background,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -190,7 +192,7 @@ fun AddScreenCard(
             ) {
                 Text(
                     text = storedIngredient.name,
-                    modifier = Modifier.padding(top = 6.dp, start = 4.dp),
+                    modifier = Modifier.padding(top = 6.dp, start = 8.dp),
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
                     maxLines = 1,
