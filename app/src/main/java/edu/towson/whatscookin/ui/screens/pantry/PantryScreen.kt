@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import edu.towson.whatscookin.db.entities.StoredIngredient
+import edu.towson.whatscookin.ext.similarity
 import edu.towson.whatscookin.ui.shared.compose.SearchBar
 import edu.towson.whatscookin.ui.shared.viewmodel.ApplicationViewModel
 
@@ -73,9 +74,11 @@ private fun Header(
         modifier = Modifier.fillMaxWidth()
     ) {
         SearchBar(
-            value = "",
-            placeholderText = "",
-            onValueChange = {},
+            value = vm.searchText.value,
+            placeholderText = "Search your pantry",
+            onValueChange = {newText ->
+                vm.searchText.value = newText
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 25.dp, end = 25.dp, top = 15.dp, bottom = 5.dp)
@@ -144,7 +147,7 @@ private fun PantryList(vm: PantryScreenViewModel, appVm: ApplicationViewModel) {
             .fillMaxSize()
             .padding(horizontal = 25.dp)
     ) {
-        items(appVm.ingredient.value.filter { storedIngredient ->
+        val ingredientsFilteredByLocation = appVm.ingredient.value.filter { storedIngredient ->
             when (vm.selectedFilter) {
                 PantryScreenViewModel.StorageFilter.PANTRY -> {
                     storedIngredient.storageLocation == StoredIngredient.Pantry
@@ -156,6 +159,15 @@ private fun PantryList(vm: PantryScreenViewModel, appVm: ApplicationViewModel) {
                     storedIngredient.storageLocation == StoredIngredient.Freezer
                 }
                 else -> true
+            }
+        }
+        items(ingredientsFilteredByLocation.filter { storedIngredient ->
+            val searchText = vm.searchText.value
+            when (searchText.length) {
+                0 -> true
+                1 -> storedIngredient.name.startsWith(searchText, true)
+                2 -> storedIngredient.name.similarity(searchText) >= .2f
+                else -> storedIngredient.name.similarity(searchText) > .4f
             }
         }) { ingredient ->
             PantryRowItem(ingredientName = ingredient.name, ingredientCount = ingredient.count)
@@ -181,7 +193,6 @@ fun PantryRowItem(
         ) {
             Row() {
                 Column(modifier = Modifier.padding(end = 10.dp)) {
-                    // TODO: Place holder - Some food icon could go here
                     Icon(Icons.Filled.Fastfood, contentDescription = null)
                 }
                 Column(modifier = Modifier.padding(end = 5.dp)) {
@@ -192,6 +203,7 @@ fun PantryRowItem(
                 }
             }
             Row() {
+                // TODO: Replace with date added
                 Text("Expiring in 5 weeks")
             }
         }

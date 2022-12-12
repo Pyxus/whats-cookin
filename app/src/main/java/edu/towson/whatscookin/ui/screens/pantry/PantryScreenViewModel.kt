@@ -12,5 +12,6 @@ class PantryScreenViewModel: ViewModel() {
     }
 
     var selectedFilter by mutableStateOf(StorageFilter.ALL)
+    val searchText = mutableStateOf("")
 
 }
