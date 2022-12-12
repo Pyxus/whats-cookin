@@ -120,6 +120,7 @@ class TheMealDB {
             youtubeUrl = mealSchema.strYoutube,
             recipeSourceUrl = mealSchema.strSource,
             imageSourceUrl = mealSchema.strImageSource,
+            ingredientsInPossession = 0,
         )
     }
 

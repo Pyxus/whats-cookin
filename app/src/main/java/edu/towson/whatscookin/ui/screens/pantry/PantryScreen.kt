@@ -125,28 +125,28 @@ private fun Header(
         item {
             StorageFilterItem(text = "All",
                 isSelected = vm.selectedFilter == PantryScreenViewModel.StorageFilter.ALL,
-                count = appVm.ingredient.value.size,
+                count = appVm.ingredients.value.size,
                 onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.ALL })
         }
 
         item {
             StorageFilterItem(text = "Pantry",
                 isSelected = vm.selectedFilter == PantryScreenViewModel.StorageFilter.PANTRY,
-                count = appVm.ingredient.value.count { ingredient -> ingredient.storageLocation == StoredIngredient.Pantry },
+                count = appVm.ingredients.value.count { ingredient -> ingredient.storageLocation == StoredIngredient.Pantry },
                 onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.PANTRY })
         }
 
         item {
             StorageFilterItem(text = "Fridge",
                 isSelected = vm.selectedFilter == PantryScreenViewModel.StorageFilter.FRIDGE,
-                count = appVm.ingredient.value.count { ingredient -> ingredient.storageLocation == StoredIngredient.Fridge },
+                count = appVm.ingredients.value.count { ingredient -> ingredient.storageLocation == StoredIngredient.Fridge },
                 onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.FRIDGE })
         }
 
         item {
             StorageFilterItem(text = "Freezer",
                 isSelected = vm.selectedFilter == PantryScreenViewModel.StorageFilter.FREEZER,
-                count = appVm.ingredient.value.count { ingredient -> ingredient.storageLocation == StoredIngredient.Freezer },
+                count = appVm.ingredients.value.count { ingredient -> ingredient.storageLocation == StoredIngredient.Freezer },
                 onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.FREEZER })
         }
     }
@@ -182,7 +182,7 @@ private fun PantryList(vm: PantryScreenViewModel, appVm: ApplicationViewModel) {
             .fillMaxSize()
             .padding(horizontal = 25.dp)
     ) {
-        val ingredientsFilteredByLocation = appVm.ingredient.value.filter { storedIngredient ->
+        val ingredientsFilteredByLocation = appVm.ingredients.value.filter { storedIngredient ->
             when (vm.selectedFilter) {
                 PantryScreenViewModel.StorageFilter.PANTRY -> {
                     storedIngredient.storageLocation == StoredIngredient.Pantry

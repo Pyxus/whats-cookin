@@ -21,7 +21,7 @@ class ApplicationViewModel(app: Application) : AndroidViewModel(app) {
     private val db: AppDatabase
 
     private val _ingredients = mutableStateOf(listOf<StoredIngredient>())
-    val ingredient: State<List<StoredIngredient>> = _ingredients
+    val ingredients: State<List<StoredIngredient>> = _ingredients
 
     init {
         db = Room.databaseBuilder(

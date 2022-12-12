@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import edu.towson.whatscookin.model.Meal
 
 //TODO: Display how many ingredients the users has compared to how many they need
 //TODO: Navigate to instruction screen that displays instructions to make meal when clicked.
@@ -25,16 +26,21 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun RecipeScreen(vm: RecipeScreenViewModel, onNavigateToRecipeDetails: () -> Unit) {
     if (vm.mealSearchProgress.value.isSearchFinished) {
-        if (vm.meals.value.isNotEmpty())
-        {
+        if (vm.meals.value.isNotEmpty()) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 128.dp),
+                contentPadding = PaddingValues(
+                    start = 0.dp,
+                    end = 0.dp,
+                    top = 0.dp,
+                    bottom = 128.dp
+                ),
             ) {
                 items(vm.meals.value) { meal ->
                     MealCard(
                         mealImage = vm.mealImages.value[meal.idMeal],
                         mealName = meal.name,
+                        ingredientCount = "${"(${meal.ingredientsInPossession} / ${meal.measureByIngredient.keys.size}"})",
                         onNavigateToRecipeDetails = {
                             vm.selectedMeal = meal
                             onNavigateToRecipeDetails()
@@ -42,8 +48,12 @@ fun RecipeScreen(vm: RecipeScreenViewModel, onNavigateToRecipeDetails: () -> Uni
                     )
                 }
             }
-        } else{
-            Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
+        } else {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize()
+            ) {
                 Text(text = "Add ingredients to your pantry!", fontSize = 24.sp)
             }
 
@@ -70,7 +80,7 @@ fun RecipeScreen(vm: RecipeScreenViewModel, onNavigateToRecipeDetails: () -> Uni
 }
 
 @Composable
-fun MealCard(mealImage: ImageBitmap?, mealName: String, onNavigateToRecipeDetails: () -> Unit) {
+fun MealCard(mealImage: ImageBitmap?, mealName: String, ingredientCount: String, onNavigateToRecipeDetails: () -> Unit) {
     Card(
         elevation = 15.dp,
         modifier = Modifier
@@ -101,6 +111,11 @@ fun MealCard(mealImage: ImageBitmap?, mealName: String, onNavigateToRecipeDetail
                 modifier = Modifier.padding(5.dp)
             ) {
                 Text(mealName)
+            }
+            Row(
+                modifier = Modifier.padding(5.dp)
+            ){
+                Text("$ingredientCount ingredients")
             }
         }
     }

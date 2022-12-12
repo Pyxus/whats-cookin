@@ -28,7 +28,7 @@ fun NavGraph(
     val pantryScreenViewModel = viewModel<PantryScreenViewModel>()
     val addToPantryViewModel = viewModel<AddToPantryViewModel>()
 
-    LaunchedEffect(key1 = true){
+    LaunchedEffect(key1 = true) {
         recipeScreenViewModel.viewModelScope.launch {
             recipeScreenViewModel.updateMeals(applicationViewModel.getIngredients())
         }
@@ -58,7 +58,6 @@ fun NavGraph(
         }
 
         composable(Screen.Recipe.route) {
-
             RecipeScreen(
                 vm = recipeScreenViewModel,
                 onNavigateToRecipeDetails = { nav.navigate(Screen.RecipeDetails.route) }

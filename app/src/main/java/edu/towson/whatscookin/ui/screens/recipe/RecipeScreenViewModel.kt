@@ -69,11 +69,13 @@ class RecipeScreenViewModel : ViewModel() {
                 }
 
                 val pmValues = potentialMeals.values
-                val sortedValues = pmValues.sortedByDescending { pm ->
-                    pm.possessedIngredientCount
+                val filteredValues = pmValues.filter { pm -> pm.possessedIngredientCount != 0 }
+                val sortedValues = filteredValues.sortedByDescending { pm ->
+                    pm.possessedIngredientCount / pm.meal.measureByIngredient.keys.size.toFloat()
                 }
 
                 sortedValues.map { pm ->
+                    pm.meal.ingredientsInPossession = pm.possessedIngredientCount
                     pm.meal
                 }
             }
