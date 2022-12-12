@@ -70,7 +70,9 @@ fun BottomBar(
             selected = currentDestination?.route == Screen.Pantry.route,
             label = { Text("Pantry") },
             onClick = {
-                nav.clearBackStack(Screen.Pantry.route)
+                nav.navigate(Screen.Pantry.route){
+                    popUpTo(Screen.Pantry.route){inclusive = true}
+                }
             },
             icon = { Icon(Icons.Filled.Kitchen, contentDescription = "Navigate to pantry") }
         )
@@ -80,7 +82,7 @@ fun BottomBar(
             label = { Text("Recipes") },
             onClick = {
                 nav.navigate(Screen.Recipe.route) {
-                    popUpTo(Screen.Recipe.route)
+                    popUpTo(Screen.Recipe.route){inclusive = true}
                 }
             },
             icon = { Icon(Icons.Filled.MenuBook, contentDescription = "Navigate to recipes") }
@@ -91,7 +93,7 @@ fun BottomBar(
             label = { Text("Tools") },
             onClick = {
                 nav.navigate(Screen.Tools.route) {
-                    popUpTo(Screen.Tools.route)
+                    popUpTo(Screen.Tools.route){inclusive = true}
                 }
             },
             icon = { Icon(Icons.Filled.Kitchen, contentDescription = "Navigate to tools") }

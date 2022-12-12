@@ -81,7 +81,9 @@ fun NavGraph(
                     recipeScreenViewModel.viewModelScope.launch {
                         recipeScreenViewModel.updateMeals(applicationViewModel.getIngredients())
                     }
-                    nav.clearBackStack(Screen.Pantry.route)
+                    nav.navigate(Screen.Pantry.route){
+                        popUpTo(Screen.Pantry.route){inclusive = true}
+                    }
                 })
         }
 
