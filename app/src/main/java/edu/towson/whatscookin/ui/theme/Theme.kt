@@ -11,7 +11,7 @@ private val DarkColorPalette = darkColors(
 
     background = IconBlueDarker,
     primary = IconBlueDark,
-    primaryVariant = IconBlueDarker,
+    primaryVariant = IconBlue,
     secondary = IconRed,
     secondaryVariant = Color.White
 )
