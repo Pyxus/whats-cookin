@@ -213,7 +213,7 @@ fun AddScreenCard(
                                 )
                             },
                             keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Number
+                                keyboardType = KeyboardType.Decimal
                             ),
                             onValueChange = { inputCount: String ->
                                 try {
