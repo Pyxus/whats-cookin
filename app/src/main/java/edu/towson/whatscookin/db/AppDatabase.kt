@@ -25,7 +25,7 @@ interface IngredientDao {
     suspend fun deleteIngredient(ingredient: StoredIngredient)
 }
 
-@Database(entities = [StoredIngredient::class], version = 1, exportSchema = false)
+@Database(entities = [StoredIngredient::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun ingredientDao(): IngredientDao

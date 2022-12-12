@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
 
+
 @Entity(tableName = "stored_ingredients", primaryKeys = ["id", "date_added"])
 data class StoredIngredient(
     @ColumnInfo
@@ -18,4 +19,13 @@ data class StoredIngredient(
 
     @ColumnInfo()
     val count: Int,
-)
+
+    @ColumnInfo()
+    val storageLocation: String,
+){
+    companion object {
+        const val Fridge = "fridge"
+        const val Freezer = "freezer"
+        const val Pantry = "pantry"
+    }
+}

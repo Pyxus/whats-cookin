@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -22,26 +23,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import edu.towson.whatscookin.db.entities.StoredIngredient
 import edu.towson.whatscookin.ui.shared.compose.SearchBar
+import edu.towson.whatscookin.ui.shared.viewmodel.ApplicationViewModel
 
 @Composable
-fun PantryScreen() {
-    val vm = viewModel<PantryScreenViewModel>()
+fun PantryScreen(
+    vm: PantryScreenViewModel,
+    appVm: ApplicationViewModel,
+) {
 
-    Scaffold(
-        topBar = {
-            TopAppBar() {
-                TopBar()
-            }
+    Scaffold(topBar = {
+        TopAppBar() {
+            TopBar()
         }
-    ) { padding ->
+    }) { padding ->
         Column(
-            modifier = Modifier
-                .padding(padding)
+            modifier = Modifier.padding(padding)
         ) {
-            Header(vm)
+            Header(vm, appVm)
             Row() {
-                PantryList()
+                PantryList(appVm)
             }
         }
     }
@@ -49,13 +51,12 @@ fun PantryScreen() {
 }
 
 @Composable
-fun TopBar() {
+private fun TopBar() {
     TopAppBar(
         elevation = 12.dp,
     ) {
         Row(
-            modifier = Modifier
-                .padding(10.dp)
+            modifier = Modifier.padding(10.dp)
         ) {
             Column() {
                 Text(text = "Pantry", fontWeight = FontWeight.Bold, fontSize = 24.sp)
@@ -65,78 +66,71 @@ fun TopBar() {
 }
 
 @Composable
-fun Header(
-    vm: PantryScreenViewModel
+private fun Header(
+    vm: PantryScreenViewModel,
+    appVm: ApplicationViewModel,
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
-//        SearchBar(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(start = 25.dp, end = 25.dp, top = 15.dp, bottom = 5.dp)
-//        )
+        SearchBar(
+            value = "",
+            placeholderText = "",
+            onValueChange = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 25.dp, end = 25.dp, top = 15.dp, bottom = 5.dp)
+        )
     }
     LazyRow(
         contentPadding = PaddingValues(horizontal = 19.dp)
     ) {
         item {
-            StorageFilterItem(
-                text = "All",
+            StorageFilterItem(text = "All",
                 isSelected = vm.selectedFilter == PantryScreenViewModel.StorageFilter.ALL,
-                onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.ALL }
-            )
+                count = appVm.ingredient.value.size,
+                onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.ALL })
         }
 
         item {
-            StorageFilterItem(
-                text = "Pantry",
+            StorageFilterItem(text = "Pantry",
                 isSelected = vm.selectedFilter == PantryScreenViewModel.StorageFilter.PANTRY,
-                onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.PANTRY }
-            )
+                count = appVm.ingredient.value.count { ingredient -> ingredient.storageLocation == StoredIngredient.Pantry },
+                onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.PANTRY })
         }
 
         item {
-            StorageFilterItem(
-                text = "Fridge",
+            StorageFilterItem(text = "Fridge",
                 isSelected = vm.selectedFilter == PantryScreenViewModel.StorageFilter.FRIDGE,
-                onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.FRIDGE }
-            )
+                count = appVm.ingredient.value.count { ingredient -> ingredient.storageLocation == StoredIngredient.Fridge },
+                onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.FRIDGE })
         }
+
         item {
-            StorageFilterItem(
-                text = "Freezer",
+            StorageFilterItem(text = "Freezer",
                 isSelected = vm.selectedFilter == PantryScreenViewModel.StorageFilter.FREEZER,
-                onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.FREEZER }
-            )
+                count = appVm.ingredient.value.count { ingredient -> ingredient.storageLocation == StoredIngredient.Freezer },
+                onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.FREEZER })
         }
     }
 }
 
 @Composable
 private fun StorageFilterItem(
-    text: String,
-    onClick: () -> Unit,
-    isSelected: Boolean = false,
-    count: Int = 0
+    text: String, onClick: () -> Unit, isSelected: Boolean = false, count: Int = 0
 ) {
     Column(
-        modifier = Modifier
-            .padding(horizontal = 5.dp, vertical = 15.dp)
+        modifier = Modifier.padding(horizontal = 5.dp, vertical = 15.dp)
     ) {
         Row() {
-            Button(
-                border = BorderStroke(1.dp, Color.Gray),
+            Button(border = BorderStroke(1.dp, Color.Gray),
                 elevation = null,
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = if (isSelected) MaterialTheme.colors.primary else Color.Transparent
                 ),
-                onClick = { onClick() }
-            ) {
+                onClick = { onClick() }) {
                 Text(
-                    text = "$text ($count)",
-                    color = if (isSelected) Color.White else Color.Black
+                    text = "$text ($count)", color = if (isSelected) Color.White else Color.Black
                 )
             }
         }
@@ -145,14 +139,14 @@ private fun StorageFilterItem(
 
 
 @Composable
-private fun PantryList() {
+private fun PantryList(appVm: ApplicationViewModel,) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 25.dp)
     ) {
-        item {
-            PantryRowItem(ingredientName = "Test Food", ingredientCount = 5)
+        items(appVm.ingredient.value){ingredient ->
+            PantryRowItem(ingredientName = ingredient.name, ingredientCount = ingredient.count)
         }
     }
 }
@@ -162,16 +156,12 @@ fun PantryRowItem(
     ingredientName: String,
     ingredientCount: Int,
 ) {
-    Card(
-        shape = RoundedCornerShape(5.dp),
-        elevation = 16.dp,
-        modifier = Modifier
-            //.padding(start = 16.dp, end = 16.dp, top = 5.dp, bottom = 10.dp)
-            .fillMaxWidth()
-            .clickable {
+    Card(shape = RoundedCornerShape(5.dp), elevation = 16.dp, modifier = Modifier
+        //.padding(start = 16.dp, end = 16.dp, top = 5.dp, bottom = 10.dp)
+        .fillMaxWidth()
+        .clickable {
 
-            }
-    ) {
+        }) {
         Column(
             modifier = Modifier
                 .padding(10.dp)
