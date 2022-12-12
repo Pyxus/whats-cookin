@@ -41,6 +41,11 @@ class AddToPantryViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    fun unselectAll(){
+        _selectedIngredients.value = setOf()
+        _ingredientsToStore.value = listOf()
+    }
+
     fun prepSelectedIngredientsStorage() {
         _ingredientsToStore.value = _selectedIngredients.value.map { id ->
             Log.d("Test", id.toString())

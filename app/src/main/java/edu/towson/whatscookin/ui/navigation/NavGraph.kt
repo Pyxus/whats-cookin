@@ -60,7 +60,9 @@ fun NavGraph(
         }
 
         composable(Screen.AddAllScreen.route) {
-            AddAllScreen(vm = addToPantryViewModel, appVm = applicationViewModel)
+            AddAllScreen(vm = addToPantryViewModel, appVm = applicationViewModel, onIngredientsAdded = {
+                nav.navigate(Screen.AddToPantry.route)
+            })
         }
 
     }

@@ -27,7 +27,11 @@ import edu.towson.whatscookin.ui.shared.viewmodel.ApplicationViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun AddAllScreen(vm: AddToPantryViewModel, appVm: ApplicationViewModel) {
+fun AddAllScreen(
+    vm: AddToPantryViewModel,
+    appVm: ApplicationViewModel,
+    onIngredientsAdded: () -> Unit
+) {
     val count = remember { mutableStateOf("") }
 
     Scaffold(
@@ -36,7 +40,7 @@ fun AddAllScreen(vm: AddToPantryViewModel, appVm: ApplicationViewModel) {
             AddAllTopBar()
         },
         bottomBar = {
-            AddAllButton(vm = vm, appVm = appVm)
+            AddAllButton(vm = vm, appVm = appVm, onIngredientsAdded)
         }
     ) { _ ->
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
@@ -84,7 +88,11 @@ fun AddAllTopBar() {
 }
 
 @Composable
-fun AddAllButton(vm: AddToPantryViewModel, appVm: ApplicationViewModel) {
+fun AddAllButton(
+    vm: AddToPantryViewModel,
+    appVm: ApplicationViewModel,
+    onIngredientsAdded: () -> Unit
+) {
     val checkAdd = remember { mutableStateOf(false) }
 
     Row(
@@ -125,6 +133,8 @@ fun AddAllButton(vm: AddToPantryViewModel, appVm: ApplicationViewModel) {
                             vm.ingredientsToStore.value.forEach { storedIngredient ->
                                 appVm.addIngredient(storedIngredient)
                             }
+                            vm.unselectAll()
+                            onIngredientsAdded()
                         },
                         modifier = Modifier.padding(bottom = 8.dp, end = 8.dp)
                     ) {
