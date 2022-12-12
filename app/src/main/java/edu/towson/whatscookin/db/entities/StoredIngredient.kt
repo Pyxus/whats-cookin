@@ -12,7 +12,7 @@ data class StoredIngredient(
     val id: UUID = UUID.randomUUID(),
 
     @ColumnInfo(name = "date_added")
-    val dateAdded: Date,
+    val dateAdded: Date = Date(),
 
     @ColumnInfo()
     val name: String,

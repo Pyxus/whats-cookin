@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -19,10 +20,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import edu.towson.whatscookin.ui.screens.addtopantry.AddToPantryViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun AddScreen() {
+fun AddAllScreen(vm: AddToPantryViewModel) {
     val count = remember { mutableStateOf("") }
 
     Scaffold(
@@ -33,9 +35,16 @@ fun AddScreen() {
         bottomBar = {
             AddAllButton()
         }
-    ) {
+    ) {  _ ->
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            item {
+            items(vm.ingredientsToStore.value){storedIngredient ->
+                /*
+                Notes about this setup:
+                1. I saw you were using a remember to track the count. Used storedIngredient.count now.
+                2. To update the count do vm.setIngredientToStoreCount(storedIngredient, NEW_COUNT_VALUE)
+                3. To update storage location do vm.setIngredientToStoreLocation(storedIngredient, ...)
+                    For the ...; it takes a string but make sure to only used StoredIngredient.Pantry | StoredIngredient.Fridge | etc.
+                 */
                 AddScreenCard(count)
             }
         }
@@ -76,8 +85,8 @@ fun AddAllButton() {
     val checkAdd = remember { mutableStateOf(false) }
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Start
+        horizontalArrangement = Arrangement.End,
+        modifier = Modifier.fillMaxWidth().padding(8.dp),
     ) {
         FloatingActionButton(
             onClick = {
