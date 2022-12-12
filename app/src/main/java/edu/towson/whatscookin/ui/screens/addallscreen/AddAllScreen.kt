@@ -76,7 +76,7 @@ fun AddAllTopBar() {
             Text(
                 text = stringResource(R.string.add_to_storage),
                 fontSize = 24.sp,
-                color = MaterialTheme.colors.background,
+                color = Color.White,
                 fontWeight = FontWeight.ExtraBold
             )
         }
@@ -86,7 +86,7 @@ fun AddAllTopBar() {
         ) {
             Text(
                 text = stringResource(R.string.add_to_storage_instruct),
-                color = MaterialTheme.colors.background,
+                color = Color.White,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
         }
@@ -111,8 +111,8 @@ fun AddAllButton(
             onClick = {
                 checkAdd.value = true
             },
-            modifier = Modifier.padding(start = 12.dp, bottom = 72.dp),
-            backgroundColor = MaterialTheme.colors.primary,
+            modifier = Modifier.padding(end = 10.dp, bottom = 66.dp),
+            backgroundColor = MaterialTheme.colors.secondary,
 
             ) {
             Icon(
@@ -188,11 +188,12 @@ fun AddScreenCard(
             ) {
                 Text(
                     text = storedIngredient.name,
-                    modifier = Modifier.padding(top = 6.dp, start = 8.dp),
+                    modifier = Modifier.padding(top = 12.dp, start = 8.dp),
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colors.primaryVariant
                 )
             }
 
@@ -207,9 +208,9 @@ fun AddScreenCard(
                             value = storedIngredient.count.toString(),
                             placeholder = {
                                 Text(
-                                    text = "Count",
+                                    text = stringResource(R.string.count),
                                     color = MaterialTheme.colors.background,
-                                    fontSize = 4.sp
+                                    fontSize = 12.sp
                                 )
                             },
                             keyboardOptions = KeyboardOptions(
@@ -227,8 +228,8 @@ fun AddScreenCard(
                             ),
                             singleLine = true,
                             modifier = Modifier
-                                .height(32.dp)
-                                .width(72.dp),
+                                .height(46.dp)
+                                .width(46.dp),
                             textStyle = TextStyle.Default.copy(
                                 fontSize = 12.sp,
                                 color = MaterialTheme.colors.background
@@ -263,12 +264,12 @@ fun StorageLocationDropdown(onStorageLocationClicked: (String) -> Unit) {
             items[selectedIndex],
             modifier = Modifier
                 .clickable(onClick = { expanded = true })
-                .width(72.dp)
-                .height(32.dp)
+                .width(55.dp)
+                .height(46.dp)
                 .background(
                     MaterialTheme.colors.primary
                 )
-                .padding(top = 8.dp, start = 12.dp),
+                .padding(top = 12.dp, start = 10.dp),
             fontSize = 12.sp,
             color = MaterialTheme.colors.background
         )

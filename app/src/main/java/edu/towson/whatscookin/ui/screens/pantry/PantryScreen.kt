@@ -122,7 +122,7 @@ private fun Header(
             StorageFilterItem(text = stringResource(R.string.all_tab),
                 isSelected = vm.selectedFilter == PantryScreenViewModel.StorageFilter.ALL,
                 count = appVm.ingredients.value.size,
-                onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.ALL })
+                onClick = { vm.selectedFilter = PantryScreenViewModel.StorageFilter.ALL },)
         }
 
         item {
@@ -163,7 +163,7 @@ private fun StorageFilterItem(
                 ),
                 onClick = { onClick() }) {
                 Text(
-                    text = "$text ($count)", color = if (isSelected) MaterialTheme.colors.primaryVariant else MaterialTheme.colors.secondaryVariant
+                    text = "$text ($count)", color = if (isSelected) MaterialTheme.colors.secondaryVariant else MaterialTheme.colors.primaryVariant
                 )
             }
         }
