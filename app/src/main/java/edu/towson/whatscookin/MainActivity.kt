@@ -32,25 +32,13 @@ class MainActivity : ComponentActivity() {
 }
 
 // Specific Task
-//TODO: Setup SQL Database
-//TODO: Cache all MealDB Ingredients with SQLite.
-//TODO: Implement "add to pantry" function
-//TODO: Store user ingredients with SQLite
-//TODO: Implement Recipes screen.
-//      For this, loop through all ingredients in the user's pantry and do api calls to populate screen
-//      using mealDB
 //TODO: Implement tools screen. Should just be a list of simple tools: Unit converter, timer, etc.
 //      Don't put too much time into them.
 
 
 // 5pt Requirements
-//TODO: Custom app icon (delegated to katie)
 //TODO: Custom app theme (not 100% sure what this means but we could tweak the Theme.kt file)
-//TODO: Dialogs are a requirement, squeeze them in somewhere
 //TODO: Notifications are a requirement. 2 ideas: food expiring notifications and timer notifications.
-//TODO: Intents? (I think we're covering this next?)
-//TODO: SQLite
-//TODO: Connect to internet (api calls count)
 
 // Rubric Requirements
 //TODO: App is responsive (basically multithreading used where appropriate)
