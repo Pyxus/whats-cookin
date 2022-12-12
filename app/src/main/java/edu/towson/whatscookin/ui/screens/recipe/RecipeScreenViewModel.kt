@@ -2,10 +2,7 @@ package edu.towson.whatscookin.ui.screens.recipe
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
@@ -16,7 +13,6 @@ import edu.towson.whatscookin.model.Meal
 import edu.towson.whatscookin.model.MealSearchProgress
 import edu.towson.whatscookin.network.TheMealDB
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient

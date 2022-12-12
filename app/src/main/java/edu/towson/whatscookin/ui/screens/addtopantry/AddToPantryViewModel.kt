@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AddToPantryViewModel(app: Application) : AndroidViewModel(app) {
-    /*
+
     private val theMealDB = TheMealDB()
 
     private val _allIngredients: MutableState<List<Ingredient>> = mutableStateOf(listOf())
@@ -27,35 +27,15 @@ class AddToPantryViewModel(app: Application) : AndroidViewModel(app) {
     val allIngredients: State<List<Ingredient>> = _allIngredients
     val selectedIngredients: State<Set<Int>> = _selectedIngredients
 
-    private lateinit var _repository: InterfaceStoredIngredientsDatabase
-
     init {
         viewModelScope.launch {
             withContext(
                 Dispatchers.IO
             ) {
                 _allIngredients.value = theMealDB.getAllIngredients()
-                _repository = StoredIngredientsDatabaseRepo(getApplication(), ingredients)
             }
         }
     }
-
-    fun addIngredient(ingredient: StoredIngredient) {
-        viewModelScope.launch{
-            _repository.addIngredient(ingredient)
-            _ingredients.value = _repository.getIngredients()
-
-        }
-
-    }
-
-    suspend fun deleteIngredient(idx: Int){
-        viewModelScope.launch{
-            _repository.deleteIngredient(idx)
-            _ingredients.value = _repository.getIngredients()
-        }
-    }
-
 
     fun toggleSelection(id: Int) {
 
@@ -66,5 +46,5 @@ class AddToPantryViewModel(app: Application) : AndroidViewModel(app) {
             _selectedIngredients.value = _selectedIngredients.value + setOf(id)
         }
     }
-*/
+
 }
