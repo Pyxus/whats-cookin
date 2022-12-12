@@ -48,6 +48,4 @@ class MainActivity : ComponentActivity() {
 //TODO: Navigation is effective (pop nav stack when needed)
 //TODO: Code is clean and can be read quickly. Comments explain important parts.
 //TODO: No commented-out code
-//TODO: Commits are frequent
 //TODO: Readme explains the project clearly
-//TODO: Multiple branches are utilized
