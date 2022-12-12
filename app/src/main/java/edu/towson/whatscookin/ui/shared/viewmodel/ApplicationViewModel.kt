@@ -20,15 +20,6 @@ class ApplicationViewModel(app: Application) : AndroidViewModel(app) {
             AppDatabase::class.java,
             "app.db"
         ).build()
-
-
-        viewModelScope.launch {
-            getIngredientsDao().addIngredient(StoredIngredient(name = "TestIngredient", count = 1, dateAdded = Date()))
-            Log.d("Test", Date().toString())
-            getIngredientsDao().getIngredients().forEach { si ->
-                Log.d("Test", si.name)
-            }
-        }
     }
 
     fun getIngredientsDao(): IngredientDao{
