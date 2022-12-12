@@ -40,10 +40,13 @@ fun NavGraph(
                 vm = pantryScreenViewModel,
                 appVm = applicationViewModel,
                 onNavigateToAddPantry = { nav.navigate(Screen.AddToPantry.route) },
-                onIngredientsDeleted = {
-                    recipeScreenViewModel.viewModelScope.launch {
-                        recipeScreenViewModel.updateMeals(applicationViewModel.getIngredients())
-                    }
+                onDeleteClicked = {
+                    applicationViewModel.deleteIngredients(
+                        ingredients = pantryScreenViewModel.ingredientsSelectedForDeletion.value,
+                        onFinished = {
+                            pantryScreenViewModel.clearDeleteQueue()
+                            recipeScreenViewModel.updateMeals(applicationViewModel.ingredients.value)
+                        })
                 }
             )
         }
@@ -78,11 +81,14 @@ fun NavGraph(
                 vm = addToPantryViewModel,
                 appVm = applicationViewModel,
                 onIngredientsAdded = {
-                    recipeScreenViewModel.viewModelScope.launch {
-                        recipeScreenViewModel.updateMeals(applicationViewModel.getIngredients())
-                    }
-                    nav.navigate(Screen.Pantry.route){
-                        popUpTo(Screen.Pantry.route){inclusive = true}
+                    applicationViewModel.addIngredients(
+                        ingredients = addToPantryViewModel.ingredientsToStore.value,
+                        onFinished = {
+                            addToPantryViewModel.unselectAll()
+                            recipeScreenViewModel.updateMeals(applicationViewModel.ingredients.value)
+                        })
+                    nav.navigate(Screen.Pantry.route) {
+                        popUpTo(Screen.Pantry.route) { inclusive = true }
                     }
                 })
         }

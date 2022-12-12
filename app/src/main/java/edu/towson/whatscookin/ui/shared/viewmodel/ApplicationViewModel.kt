@@ -35,17 +35,27 @@ class ApplicationViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun addIngredient(ingredient: StoredIngredient){
+    fun addIngredients(ingredients: List<StoredIngredient>, onFinished: () -> Unit = {}){
         viewModelScope.launch {
-            db.ingredientDao().addIngredient(ingredient)
-            _ingredients.value = db.ingredientDao().getIngredients()
+            withContext(Dispatchers.IO){
+                ingredients.forEach { ingredient ->
+                    db.ingredientDao().addIngredient(ingredient)
+                }
+                _ingredients.value = db.ingredientDao().getIngredients()
+                onFinished()
+            }
         }
     }
 
-    fun deleteIngredient(ingredient: StoredIngredient){
+    fun deleteIngredients(ingredients: List<StoredIngredient>, onFinished: () -> Unit = {}){
         viewModelScope.launch {
-            db.ingredientDao().deleteIngredient(ingredient)
-            _ingredients.value = db.ingredientDao().getIngredients()
+            withContext(Dispatchers.IO){
+                ingredients.forEach { ingredient ->
+                    db.ingredientDao().deleteIngredient(ingredient)
+                }
+                _ingredients.value = db.ingredientDao().getIngredients()
+                onFinished()
+            }
         }
     }
 
