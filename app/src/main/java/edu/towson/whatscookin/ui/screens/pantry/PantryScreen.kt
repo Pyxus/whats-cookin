@@ -32,7 +32,6 @@ fun PantryScreen(
     vm: PantryScreenViewModel,
     appVm: ApplicationViewModel,
 ) {
-
     Scaffold(topBar = {
         TopAppBar() {
             TopBar()
@@ -43,7 +42,7 @@ fun PantryScreen(
         ) {
             Header(vm, appVm)
             Row() {
-                PantryList(appVm)
+                PantryList(vm = vm, appVm = appVm)
             }
         }
     }
@@ -139,13 +138,26 @@ private fun StorageFilterItem(
 
 
 @Composable
-private fun PantryList(appVm: ApplicationViewModel,) {
+private fun PantryList(vm: PantryScreenViewModel, appVm: ApplicationViewModel) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 25.dp)
     ) {
-        items(appVm.ingredient.value){ingredient ->
+        items(appVm.ingredient.value.filter { storedIngredient ->
+            when (vm.selectedFilter) {
+                PantryScreenViewModel.StorageFilter.PANTRY -> {
+                    storedIngredient.storageLocation == StoredIngredient.Pantry
+                }
+                PantryScreenViewModel.StorageFilter.FRIDGE -> {
+                    storedIngredient.storageLocation == StoredIngredient.Fridge
+                }
+                PantryScreenViewModel.StorageFilter.FREEZER -> {
+                    storedIngredient.storageLocation == StoredIngredient.Freezer
+                }
+                else -> true
+            }
+        }) { ingredient ->
             PantryRowItem(ingredientName = ingredient.name, ingredientCount = ingredient.count)
         }
     }
@@ -157,7 +169,7 @@ fun PantryRowItem(
     ingredientCount: Int,
 ) {
     Card(shape = RoundedCornerShape(5.dp), elevation = 16.dp, modifier = Modifier
-        //.padding(start = 16.dp, end = 16.dp, top = 5.dp, bottom = 10.dp)
+        .padding(top = 5.dp, bottom = 10.dp)
         .fillMaxWidth()
         .clickable {
 

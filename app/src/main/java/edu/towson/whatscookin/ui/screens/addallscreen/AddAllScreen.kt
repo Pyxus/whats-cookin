@@ -52,7 +52,11 @@ fun AddAllScreen(
                             storedIngredient,
                             maxOf(count, 1)
                         )
-                    })
+                    },
+                    onStorageLocationClicked = { location ->
+                        vm.setIngredientToStoreLocation(storedIngredient, location)
+                    }
+                )
             }
         }
     }
@@ -157,7 +161,11 @@ fun AddAllButton(
 }
 
 @Composable
-fun AddScreenCard(storedIngredient: StoredIngredient, onCountChange: (Int) -> Unit) {
+fun AddScreenCard(
+    storedIngredient: StoredIngredient,
+    onCountChange: (Int) -> Unit,
+    onStorageLocationClicked: (String) -> Unit
+) {
     Card(
         shape = RoundedCornerShape(10.dp),
         elevation = 1.dp,
@@ -230,7 +238,11 @@ fun AddScreenCard(storedIngredient: StoredIngredient, onCountChange: (Int) -> Un
                         )
                     }
                     Column(modifier = Modifier.padding(start = 2.dp, end = 2.dp)) {
-                        StorageLocationDropdown()
+                        StorageLocationDropdown(onStorageLocationClicked = { location ->
+                            onStorageLocationClicked(
+                                location
+                            )
+                        })
                     }
                 }
             }
@@ -239,11 +251,11 @@ fun AddScreenCard(storedIngredient: StoredIngredient, onCountChange: (Int) -> Un
 }
 
 @Composable
-fun StorageLocationDropdown() {
+fun StorageLocationDropdown(onStorageLocationClicked: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf(0) }
 
-    val items = listOf("Pantry", "Fridge", "Freezer")
+    val items = listOf(StoredIngredient.Pantry, StoredIngredient.Fridge, StoredIngredient.Freezer)
 
     Box(
         modifier = Modifier
@@ -275,6 +287,7 @@ fun StorageLocationDropdown() {
                 DropdownMenuItem(onClick = {
                     selectedIndex = index
                     expanded = false
+                    onStorageLocationClicked(s)
                 }) {
                     Text(text = s)
                 }
