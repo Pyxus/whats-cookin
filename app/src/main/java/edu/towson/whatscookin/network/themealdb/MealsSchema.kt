@@ -4,7 +4,7 @@ data class MealsSchema(
     val meals: List<MealSchema>
 )
 
-// I would love to know why they didn't use a string array to structure the ingredients list...
+// I would love to know why they didn't just use a string array to structure the ingredients list...
 data class MealSchema(
     val idMeal: Int,
     val strMeal: String,
@@ -59,6 +59,9 @@ data class MealSchema(
     val strCreativeCommonsConfirmed: String?,
     val dateModified: String?,
 ) {
+
+    // Helper function to map each ingredient to it's measure used in this meal
+    // Makes it a lot easier to work with this data..
     fun measureByIngredientMap(): Map<String, String> {
         val map = mutableMapOf<String, String>()
         val ingredients = listOf(
@@ -116,6 +119,7 @@ data class MealSchema(
         return map
     }
 
+    // Helper function to extract each tag from the string and store them in a list.
     fun tagsToList(): List<String> {
         return strTags?.split(",") ?: listOf()
     }
