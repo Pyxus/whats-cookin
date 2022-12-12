@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import edu.towson.whatscookin.db.entities.StoredIngredient
 import edu.towson.whatscookin.ui.screens.addtopantry.AddToPantryViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -36,9 +37,9 @@ fun AddAllScreen(vm: AddToPantryViewModel) {
         bottomBar = {
             AddAllButton()
         }
-    ) {  _ ->
+    ) { _ ->
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(vm.ingredientsToStore.value){storedIngredient ->
+            items(vm.ingredientsToStore.value) { storedIngredient ->
                 /*
                 Notes about this setup:
                 1. I saw you were using a remember to track the count. Used storedIngredient.count now.
@@ -46,7 +47,14 @@ fun AddAllScreen(vm: AddToPantryViewModel) {
                 3. To update storage location do vm.setIngredientToStoreLocation(storedIngredient, ...)
                     For the ...; it takes a string but make sure to only used StoredIngredient.Pantry | StoredIngredient.Fridge | etc.
                  */
-                AddScreenCard(count)
+                AddScreenCard(
+                    storedIngredient,
+                    onCountChange = { count ->
+                        vm.setIngredientToStoreCount(
+                            storedIngredient,
+                            count
+                        )
+                    })
             }
         }
     }
@@ -87,7 +95,9 @@ fun AddAllButton() {
 
     Row(
         horizontalArrangement = Arrangement.End,
-        modifier = Modifier.fillMaxWidth().padding(8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
     ) {
         FloatingActionButton(
             onClick = {
@@ -105,7 +115,7 @@ fun AddAllButton() {
             )
         }
 
-        if (checkAdd.value){
+        if (checkAdd.value) {
             AlertDialog(
                 onDismissRequest = { checkAdd.value = false },
                 title = {
@@ -140,7 +150,7 @@ fun AddAllButton() {
 }
 
 @Composable
-fun AddScreenCard(count: MutableState<String>) {
+fun AddScreenCard(storedIngredient: StoredIngredient, onCountChange: (Int) -> Unit) {
     Card(
         shape = RoundedCornerShape(10.dp),
         elevation = 1.dp,
@@ -154,60 +164,69 @@ fun AddScreenCard(count: MutableState<String>) {
             .fillMaxWidth(),
         contentColor = MaterialTheme.colors.primary
     ) {
-        Column {
-            Row {
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(2.dp),
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Column(
+                horizontalAlignment = Alignment.Start,
+            ) {
                 Text(
-                    text = "ingredient.namewawdjlawkdjowi;adoi;awjdioawdioawjdioawdoijawdi9oawjud",
-                    modifier = Modifier.padding(16.dp),
+                    text = storedIngredient.name,
+                    modifier = Modifier.padding(top = 6.dp, start = 4.dp),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
+                    fontSize = 12.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
             }
 
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 16.dp, end = 16.dp),
-                horizontalArrangement = Arrangement.End
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.End
             ) {
-                OutlinedTextField(
-                    value = count.value,
-                    placeholder = {
-                        Text(
-                            text = "Enter Count",
-                            color = MaterialTheme.colors.background,
-                            fontSize = 16.sp
+                Row(modifier = Modifier.padding(start = 2.dp, end = 2.dp)) {
+                    Column(modifier = Modifier.padding(start = 2.dp, end = 2.dp)) {
+                        OutlinedTextField(
+                            value = storedIngredient.count.toString(),
+                            placeholder = {
+                                Text(
+                                    text = "Count",
+                                    color = MaterialTheme.colors.background,
+                                    fontSize = 4.sp
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number
+                            ),
+                            onValueChange = { inputCount: String ->
+                                try {
+                                    onCountChange(inputCount.toInt())
+                                } catch (e: Exception) {
+                                    onCountChange(1)
+                                }
+                            },
+                            colors = TextFieldDefaults.textFieldColors(
+                                backgroundColor = MaterialTheme.colors.primary
+                            ),
+                            singleLine = true,
+                            modifier = Modifier
+                                .height(32.dp)
+                                .width(72.dp),
+                            textStyle = TextStyle.Default.copy(
+                                fontSize = 12.sp,
+                                color = MaterialTheme.colors.background
+                            )
                         )
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number
-                    ),
-                    onValueChange = { inputCount: String ->
-                        count.value = inputCount
-                    },
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = MaterialTheme.colors.primary
-                    ),
-                    singleLine = true,
-                    modifier = Modifier
-                        .height(52.dp)
-                        .width(128.dp),
-                    textStyle = TextStyle.Default.copy(
-                        fontSize = 12.sp,
-                        color = MaterialTheme.colors.background
-                    )
-                )
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 24.dp, end = 16.dp),
-                horizontalArrangement = Arrangement.End
-            ) {
-                StorageLocationDropdown()
+                    }
+                    Column(modifier = Modifier.padding(start = 2.dp, end = 2.dp)) {
+                        StorageLocationDropdown()
+                    }
+                }
             }
         }
     }
@@ -228,13 +247,13 @@ fun StorageLocationDropdown() {
             items[selectedIndex],
             modifier = Modifier
                 .clickable(onClick = { expanded = true })
-                .width(128.dp)
-                .height(44.dp)
+                .width(72.dp)
+                .height(32.dp)
                 .background(
                     MaterialTheme.colors.primary
                 )
                 .padding(top = 8.dp, start = 12.dp),
-            fontSize = 20.sp,
+            fontSize = 12.sp,
             color = MaterialTheme.colors.background
         )
         DropdownMenu(
