@@ -2,6 +2,7 @@ package edu.towson.whatscookin.ui.screens.recipe
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.ImageBitmap
@@ -85,13 +86,29 @@ class RecipeScreenViewModel : ViewModel() {
         }
     }
 
+    private suspend fun fetchImage(){
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .get()
+            .url("")
+            .build()
+
+        val response = client.newCall(request).execute()
+        val responseBody = response.body
+
+        if (responseBody != null){
+            val bitmap = BitmapFactory.decodeStream(responseBody.byteStream())
+
+        }
+    }
+
     private suspend fun fetchMealImage(client: OkHttpClient, meal: Meal) {
         var bitmap: Bitmap? = null
 
         if (!_mealImages.value.containsKey(meal.idMeal)) {
             val request = Request.Builder()
                 .get()
-                .url(meal.imageUrl)
+                .url("https://www.themealdb.com/api/json/v1/1/random.php")
                 .build()
             val response = client.newCall(request).execute()
             val responseBody = response.body

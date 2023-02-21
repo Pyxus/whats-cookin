@@ -1,3 +1,9 @@
+# Note
+
+This project was created for my Mobile Application Development class and was submitted Dec. 2022
+
+# Group Members
+
 Ezekiel Halley, Katie Durkin, John Appel
 
 # Third party libraries used:
