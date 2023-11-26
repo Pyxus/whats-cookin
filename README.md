@@ -1,4 +1,8 @@
-# Note
+# What's Cookin - Recipe Suggestion App
+
+<p align="center">
+    <img src="demo.gif" alt="Interpreter demo">
+</p>
 
 This project was created for my Mobile Application Development class and was submitted Dec. 2022
 
